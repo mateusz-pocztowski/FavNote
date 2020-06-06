@@ -9,6 +9,7 @@ import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import plusIcon from 'assets/icons/plus.svg';
 import withContext from 'hoc/withContext';
 import NewItemPanel from 'components/organisms/NewItemPanel/NewItemPanel';
+import emptyStateImg from 'assets/images/emptyState.png';
 
 const Wrapper = styled.div`
   position: relative;
@@ -19,7 +20,6 @@ const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 45px;
-
   @media (min-width: 1100px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -60,6 +60,26 @@ const StyledAddButton = styled(ButtonIcon)`
   }
 `;
 
+const EmptyStateWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0.7;
+`;
+
+const EmptyState = styled.div`
+  width: 400px;
+  height: 350px;
+  background: url(${emptyStateImg}) no-repeat center;
+  background-size: 100%;
+`;
+
+const StyledEmptyHeading = styled(Heading)`
+  margin: 20px 0 0;
+`;
+
 class GridTemplate extends Component {
   constructor(props) {
     super(props);
@@ -81,15 +101,27 @@ class GridTemplate extends Component {
       <UserPageTemplate>
         <Wrapper>
           <PageHeader>
-            <Input search placeholder="Search" />
+            <Input search placeholder="Search" activecolor={pageContext} />
             <StyledHeading big as="h1">
               {pageContext}
             </StyledHeading>
-            <StyledParagraph>
-              {children.length} {pageContext}
-            </StyledParagraph>
+            {children.length !== 0 && (
+              <StyledParagraph>
+                {children.length} {pageContext}
+              </StyledParagraph>
+            )}
           </PageHeader>
-          <GridWrapper>{children}</GridWrapper>
+          {children.length === 0 ? (
+            <EmptyStateWrapper>
+              <EmptyState />
+              <StyledEmptyHeading>It&apos;s empty in here..</StyledEmptyHeading>
+              <Paragraph>
+                Go and add some {pageContext}! They won&apos;t go anywhere.
+              </Paragraph>
+            </EmptyStateWrapper>
+          ) : (
+            <GridWrapper>{children}</GridWrapper>
+          )}
           <StyledAddButton
             isPanelVisible={isPanelVisible}
             onClick={this.handlePanelVisibility}

@@ -149,6 +149,7 @@ const NewItemPanel = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.title}
+            activecolor={pageContext}
           />
           <StyledErrorMsg>
             {errors.twitterName && touched.twitterName && errors.twitterName}
@@ -161,6 +162,7 @@ const NewItemPanel = ({
               placeholder={
                 pageContext === 'twitters' ? 'Twitter user name' : 'Link'
               }
+              activecolor={pageContext}
               onChange={handleChange}
               onBlur={handleBlur}
               border={
@@ -184,6 +186,7 @@ const NewItemPanel = ({
             placeholder="Description"
             onChange={handleChange}
             onBlur={handleBlur}
+            activecolor={pageContext}
             value={values.content}
             border={
               touched.content && errors.content && '1px solid hsl(4, 82%, 56%)'

@@ -7,9 +7,13 @@ const Input = styled.input`
   font-weight: ${({ theme }) => theme.regular};
   background-color: ${({ theme }) => theme.gray100};
   font-family: 'Montserrat', sans-serif;
-  border: none;
+  border: 1px solid #ddd;
   border-radius: 50px;
-
+  transition: 0.2s;
+  &:focus {
+    border-color: ${({ theme, activecolor }) =>
+      theme[activecolor] || theme.notes};
+  }
   ::placeholder {
     text-transform: uppercase;
     letter-spacing: 1px;

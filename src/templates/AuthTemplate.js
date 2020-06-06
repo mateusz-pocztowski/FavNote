@@ -46,7 +46,6 @@ const StyledHeader = styled.div`
 
 const StyledInput = styled(Input)`
   width: 100%;
-  border: 1px solid;
   border-color: ${props => props.border || '#ddd'};
   background-color: hsl(0, 0%, 90%);
 `;
@@ -66,6 +65,9 @@ const StyledButton = styled(Button)`
   position: relative;
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+  &:hover {
+    background-color: ${({ theme }) => theme.notes100};
+  }
   &::before {
     content: '';
     position: absolute;
