@@ -8,6 +8,7 @@ import { routes } from 'routes';
 
 const StyledWrapper = styled.div`
   padding-left: 130px;
+  overflow: hidden;
 `;
 
 const UserPageTemplate = ({ children, userID }) => {

@@ -6,7 +6,11 @@ import Button from 'components/atoms/Button/Button';
 import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import logoIcon from 'assets/icons/logo.svg';
+import penIcon from 'assets/icons/pen.svg';
+import bulbIcon from 'assets/icons/bulb.svg';
+import twitterIcon from 'assets/icons/twitter.svg';
 import withContext from 'hoc/withContext';
+import Notification from 'components/molecules/Notification/Notification';
 import { Link, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import PropTypes from 'prop-types';
@@ -21,11 +25,12 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.notes};
+  overflow: hidden;
 `;
 
 const StyledContentWrapper = styled.div`
   position: fixed;
-  top: 5%;
+  top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +43,7 @@ const StyledHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 60px 80px;
+  padding: 40px 60px 50px;
   box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.3);
   border-radius: 10px;
   background-color: ${({ theme }) => theme.gray100};
@@ -60,9 +65,9 @@ const spin = keyframes`
 `;
 
 const StyledButton = styled(Button)`
+  position: relative;
   margin: 20px auto 0;
   background-color: ${({ theme }) => theme.notes};
-  position: relative;
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   &:hover {
@@ -87,7 +92,7 @@ const StyledButton = styled(Button)`
 const StyledLink = styled(Button)`
   display: flex;
   align-items: center;
-  margin-top: 15px;
+  margin: 15px auto 0;
   text-decoration: none;
   text-align: center;
   color: ${({ theme }) => theme.dark};
@@ -110,7 +115,7 @@ const StyledParagraph = styled(Paragraph)`
   font-size: ${({ theme }) => theme.fontSize.l};
   max-width: 450px;
   text-align: center;
-  margin: 0 0 25px;
+  margin: 0;
 `;
 
 const StyledLogo = styled.div`
@@ -119,6 +124,23 @@ const StyledLogo = styled.div`
   background: url(${logoIcon}) no-repeat center;
   background-size: 100%;
   margin: 0;
+  filter: invert(1) drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.2));
+`;
+
+const IconsWrapper = styled.div`
+  width: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+`;
+
+const StyledIcon = styled.div`
+  width: 50px;
+  height: 50px;
+  margin: 0 12px;
+  background: url(${({ icon }) => icon}) no-repeat center;
+  background-size: ${({ size }) => size || '70%'};
 `;
 
 const StyledErrorMsg = styled.p`
@@ -132,11 +154,17 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
   if (userID) return <Redirect to={routes.notes} />;
   return (
     <StyledWrapper>
+      <Notification />
       <StyledContentWrapper>
         <StyledLogo />
         <StyledParagraph>
           Your new favorite online notes memorable experience!
         </StyledParagraph>
+        <IconsWrapper>
+          <StyledIcon icon={penIcon} />
+          <StyledIcon icon={twitterIcon} />
+          <StyledIcon icon={bulbIcon} size="48%" />
+        </IconsWrapper>
         <StyledHeader>
           <StyledHeading as="h2">
             {pageContext === 'login' ? 'Sign in' : 'Sign up'}
@@ -176,6 +204,7 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
               handleBlur,
               handleSubmit,
               isSubmitting,
+              resetForm,
             }) => (
               <Form onSubmit={handleSubmit}>
                 {pageContext === 'register' && (
@@ -227,17 +256,18 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
                 <StyledButton type="submit" disabled={isSubmitting}>
                   {pageContext === 'login' ? 'Log in' : 'Register'}
                 </StyledButton>
+                <StyledLink
+                  as={Link}
+                  to={pageContext === 'login' ? routes.register : routes.login}
+                  onClick={resetForm}
+                >
+                  {pageContext === 'login'
+                    ? 'I want to log in!'
+                    : 'I want my account!'}
+                </StyledLink>
               </Form>
             )}
           </Formik>
-          <StyledLink
-            as={Link}
-            to={pageContext === 'login' ? routes.register : routes.login}
-          >
-            {pageContext === 'login'
-              ? 'I want to log in!'
-              : 'I want my account!'}
-          </StyledLink>
         </StyledHeader>
       </StyledContentWrapper>
     </StyledWrapper>

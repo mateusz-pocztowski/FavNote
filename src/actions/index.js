@@ -45,24 +45,13 @@ export const authenticate = (
       dispatch({ type: AUTH_SUCCESS, payload });
     }
   } catch (err) {
-    dispatch({ type: AUTH_FAILURE, err });
-  }
-};
-
-export const fetchItems = itemType => async dispatch => {
-  dispatch({ type: FETCH_REQUEST });
-
-  try {
-    const { data } = await axios.get(`http://localhost:1337/${itemType}/`);
-    dispatch({
-      type: FETCH_SUCCESS,
-      payload: {
-        data,
-        itemType,
-      },
-    });
-  } catch (err) {
-    dispatch({ type: FETCH_FAILURE, err });
+    const {
+      data: { data },
+      status,
+    } = err.response;
+    const [{ messages }] = data;
+    const [{ message }] = messages;
+    dispatch({ type: AUTH_FAILURE, payload: { message, status } });
   }
 };
 
@@ -75,39 +64,80 @@ export const logout = () => {
   };
 };
 
-export const removeItem = (itemType, id) => dispatch => {
+export const fetchItems = itemType => async (dispatch, getState) => {
+  dispatch({ type: FETCH_REQUEST });
+  if (!getState().userID) return;
+  try {
+    const { data } = await axios.get(`http://localhost:1337/${itemType}/`, {
+      headers: {
+        Authorization: `Bearer ${getState().userID}`,
+      },
+    });
+    dispatch({
+      type: FETCH_SUCCESS,
+      payload: {
+        data,
+        itemType,
+      },
+    });
+  } catch (err) {
+    const { status } = err.response;
+    dispatch({ type: REMOVE_ITEM_FAILURE, payload: { status } });
+  }
+};
+
+export const removeItem = (itemType, id) => (dispatch, getState) => {
   dispatch({ type: REMOVE_ITEM_REQUEST });
 
-  axios
-    .delete(`http://localhost:1337/${itemType}/${id}`)
+  const status = axios
+    .delete(`http://localhost:1337/${itemType}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getState().userID}`,
+      },
+    })
     .then(() => {
       dispatch({
         type: REMOVE_ITEM_SUCCESS,
         payload: {
+          status: 200,
+          content: `Selected item has been removed successfully!`,
           itemType,
           id,
         },
       });
     })
     .catch(err => {
-      dispatch({ type: REMOVE_ITEM_FAILURE, err });
+      console.log(err.response);
+      dispatch({ type: REMOVE_ITEM_FAILURE, payload: { status } });
     });
 };
 
-export const addItem = (itemType, itemContent) => async dispatch => {
+export const addItem = (itemType, itemContent) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: ADD_ITEM_REQUEST });
   try {
-    const { data } = await axios.post(`http://localhost:1337/${itemType}`, {
-      ...itemContent,
-    });
+    const { data, status } = await axios.post(
+      `http://localhost:1337/${itemType}`,
+      {
+        ...itemContent,
+        headers: {
+          Authorization: `Bearer ${getState().userID}`,
+        },
+      },
+    );
     dispatch({
       type: ADD_ITEM_SUCCESS,
       payload: {
+        status,
+        content: `New item has been added successfully!`,
         itemType,
         data,
       },
     });
   } catch (err) {
-    dispatch({ type: ADD_ITEM_FAILURE, err });
+    const { status } = err.response;
+    dispatch({ type: ADD_ITEM_FAILURE, payload: { status } });
   }
 };

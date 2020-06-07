@@ -5,15 +5,30 @@ import {
   FETCH_REQUEST,
   FETCH_SUCCESS,
   LOGOUT,
+  AUTH_FAILURE,
+  ADD_ITEM_FAILURE,
+  REMOVE_ITEM_FAILURE,
 } from 'actions';
 
 const initialState = {
   userID: null,
   isLoading: false,
+  message: {
+    status: null,
+    content: null,
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AUTH_FAILURE:
+      return {
+        ...state,
+        message: {
+          status: action.payload.status,
+          content: action.payload.content,
+        },
+      };
     case AUTH_SUCCESS:
       return {
         ...state,
@@ -38,10 +53,22 @@ const rootReducer = (state = initialState, action) => {
     case ADD_ITEM_SUCCESS:
       return {
         ...state,
+        message: {
+          status: action.payload.status,
+          content: action.payload.content,
+        },
         [action.payload.itemType]: [
           ...state[action.payload.itemType],
           action.payload.data,
         ],
+      };
+    case ADD_ITEM_FAILURE:
+      return {
+        ...state,
+        message: {
+          status: action.payload.status,
+          content: action.payload.content,
+        },
       };
     case REMOVE_ITEM_SUCCESS:
       return {
@@ -51,6 +78,18 @@ const rootReducer = (state = initialState, action) => {
             item => item.id !== action.payload.id,
           ),
         ],
+        message: {
+          status: action.payload.status,
+          content: action.payload.content,
+        },
+      };
+    case REMOVE_ITEM_FAILURE:
+      return {
+        ...state,
+        message: {
+          status: action.payload.status,
+          content: action.payload.content,
+        },
       };
     default:
       return state;

@@ -10,10 +10,12 @@ import plusIcon from 'assets/icons/plus.svg';
 import withContext from 'hoc/withContext';
 import NewItemPanel from 'components/organisms/NewItemPanel/NewItemPanel';
 import emptyStateImg from 'assets/images/emptyState.png';
+import Notification from 'components/molecules/Notification/Notification';
 
 const Wrapper = styled.div`
   position: relative;
   padding: 25px 150px 25px 70px;
+  overflow: hidden;
 `;
 
 const GridWrapper = styled.div`
@@ -100,6 +102,7 @@ class GridTemplate extends Component {
     return (
       <UserPageTemplate>
         <Wrapper>
+          <Notification />
           <PageHeader>
             <Input search placeholder="Search" activecolor={pageContext} />
             <StyledHeading big as="h1">
@@ -147,6 +150,17 @@ GridTemplate.propTypes = {
     'twitters',
     'articles',
   ]).isRequired,
+  message: PropTypes.shape({
+    status: PropTypes.number,
+    content: PropTypes.string,
+  }),
+};
+
+GridTemplate.defaultProps = {
+  message: {
+    status: null,
+    content: null,
+  },
 };
 
 export default withContext(GridTemplate);

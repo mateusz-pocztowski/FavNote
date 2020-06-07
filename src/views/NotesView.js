@@ -31,7 +31,6 @@ class NotesView extends Component {
 
 NotesView.propTypes = {
   fetchNotes: PropTypes.func.isRequired,
-
   notes: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
