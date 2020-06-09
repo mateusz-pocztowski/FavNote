@@ -20,26 +20,25 @@ export const LOGOUT = 'LOGOUT';
 
 export const authenticate = (
   email,
-  username,
+  id,
   password,
   authType,
 ) => async dispatch => {
   dispatch({ type: AUTH_REQUEST });
-
   try {
     if (authType === 'register') {
       const payload = await axios.post(
         `http://localhost:1337/auth/local/register`,
         {
           email,
-          username,
+          id,
           password,
         },
       );
       dispatch({ type: AUTH_SUCCESS, payload });
     } else if (authType === 'login') {
       const payload = await axios.post(`http://localhost:1337/auth/local`, {
-        identifier: username || email,
+        identifier: id || email,
         password,
       });
       dispatch({ type: AUTH_SUCCESS, payload });
@@ -59,6 +58,7 @@ export const logout = () => {
   return {
     type: LOGOUT,
     payload: {
+      userJWT: null,
       userID: null,
     },
   };
@@ -66,13 +66,16 @@ export const logout = () => {
 
 export const fetchItems = itemType => async (dispatch, getState) => {
   dispatch({ type: FETCH_REQUEST });
-  if (!getState().userID) return;
+  if (!getState().userJWT) return;
   try {
-    const { data } = await axios.get(`http://localhost:1337/${itemType}/`, {
-      headers: {
-        Authorization: `Bearer ${getState().userID}`,
+    const { data } = await axios.get(
+      `http://localhost:1337/${itemType}?user.id=${getState().userID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getState().userJWT}`,
+        },
       },
-    });
+    );
     dispatch({
       type: FETCH_SUCCESS,
       payload: {
@@ -88,28 +91,28 @@ export const fetchItems = itemType => async (dispatch, getState) => {
 
 export const removeItem = (itemType, id) => (dispatch, getState) => {
   dispatch({ type: REMOVE_ITEM_REQUEST });
-
-  const status = axios
-    .delete(`http://localhost:1337/${itemType}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${getState().userID}`,
-      },
-    })
-    .then(() => {
-      dispatch({
-        type: REMOVE_ITEM_SUCCESS,
-        payload: {
-          status: 200,
-          content: `Selected item has been removed successfully!`,
-          itemType,
-          id,
+  try {
+    axios.delete(
+      `http://localhost:1337/${itemType}/${id}?user.id=${getState().userID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getState().userJWT}`,
         },
-      });
-    })
-    .catch(err => {
-      console.log(err.response);
-      dispatch({ type: REMOVE_ITEM_FAILURE, payload: { status } });
+      },
+    );
+    dispatch({
+      type: REMOVE_ITEM_SUCCESS,
+      payload: {
+        status: 200,
+        content: `Selected item has been successfully removed!`,
+        itemType,
+        id,
+      },
     });
+  } catch (err) {
+    const { status } = err.response;
+    dispatch({ type: REMOVE_ITEM_FAILURE, payload: { status } });
+  }
 };
 
 export const addItem = (itemType, itemContent) => async (
@@ -119,11 +122,12 @@ export const addItem = (itemType, itemContent) => async (
   dispatch({ type: ADD_ITEM_REQUEST });
   try {
     const { data, status } = await axios.post(
-      `http://localhost:1337/${itemType}`,
+      `http://localhost:1337/${itemType}?user.id=${getState().userID}`,
       {
         ...itemContent,
+        user: getState().userID,
         headers: {
-          Authorization: `Bearer ${getState().userID}`,
+          Authorization: `Bearer ${getState().userJWT}`,
         },
       },
     );
@@ -131,7 +135,7 @@ export const addItem = (itemType, itemContent) => async (
       type: ADD_ITEM_SUCCESS,
       payload: {
         status,
-        content: `New item has been added successfully!`,
+        content: `New item has been successfully added!`,
         itemType,
         data,
       },

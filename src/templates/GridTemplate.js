@@ -11,6 +11,7 @@ import withContext from 'hoc/withContext';
 import NewItemPanel from 'components/organisms/NewItemPanel/NewItemPanel';
 import emptyStateImg from 'assets/images/emptyState.png';
 import Notification from 'components/molecules/Notification/Notification';
+import { motion } from 'framer-motion';
 
 const Wrapper = styled.div`
   position: relative;
@@ -103,28 +104,44 @@ class GridTemplate extends Component {
       <UserPageTemplate>
         <Wrapper>
           <Notification />
-          <PageHeader>
-            <Input search placeholder="Search" activecolor={pageContext} />
-            <StyledHeading big as="h1">
-              {pageContext}
-            </StyledHeading>
-            {children.length !== 0 && (
-              <StyledParagraph>
-                {children.length} {pageContext}
-              </StyledParagraph>
+          <motion.div
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: '-10vh' }}
+            animate={{ opacity: 1, y: '0' }}
+            exit={{ opacity: 0, y: '-10vh' }}
+          >
+            <PageHeader>
+              <Input search placeholder="Search" activecolor={pageContext} />
+              <StyledHeading big as="h1">
+                {pageContext}
+              </StyledHeading>
+              {children.length !== 0 && (
+                <StyledParagraph>
+                  {children.length} {pageContext}
+                </StyledParagraph>
+              )}
+            </PageHeader>
+          </motion.div>
+          <motion.div
+            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {children.length === 0 ? (
+              <EmptyStateWrapper>
+                <EmptyState />
+                <StyledEmptyHeading>
+                  It&apos;s empty in here..
+                </StyledEmptyHeading>
+                <Paragraph>
+                  Go and add some {pageContext}! They won&apos;t go anywhere.
+                </Paragraph>
+              </EmptyStateWrapper>
+            ) : (
+              <GridWrapper>{children}</GridWrapper>
             )}
-          </PageHeader>
-          {children.length === 0 ? (
-            <EmptyStateWrapper>
-              <EmptyState />
-              <StyledEmptyHeading>It&apos;s empty in here..</StyledEmptyHeading>
-              <Paragraph>
-                Go and add some {pageContext}! They won&apos;t go anywhere.
-              </Paragraph>
-            </EmptyStateWrapper>
-          ) : (
-            <GridWrapper>{children}</GridWrapper>
-          )}
+          </motion.div>
           <StyledAddButton
             isPanelVisible={isPanelVisible}
             onClick={this.handlePanelVisibility}

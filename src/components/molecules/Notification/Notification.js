@@ -44,9 +44,9 @@ const Text = styled(Paragraph)`
 const CloseBtn = styled.div`
   position: absolute;
   top: 10px;
-  right: 10px;
-  width: 14px;
-  height: 14px;
+  right: 12px;
+  width: 12px;
+  height: 10px;
   opacity: 0.7;
   background: url(${closeIcon}) no-repeat center;
   cursor: pointer;

@@ -283,7 +283,7 @@ AuthTemplate.propTypes = {
     'articles',
   ]).isRequired,
   authenticate: PropTypes.func.isRequired,
-  userID: PropTypes.string,
+  userID: PropTypes.number,
 };
 
 AuthTemplate.defaultProps = {

@@ -8,11 +8,14 @@ import {
   AUTH_FAILURE,
   ADD_ITEM_FAILURE,
   REMOVE_ITEM_FAILURE,
+  AUTH_REQUEST,
+  ADD_ITEM_REQUEST,
+  REMOVE_ITEM_REQUEST,
 } from 'actions';
 
 const initialState = {
+  userJWT: null,
   userID: null,
-  isLoading: false,
   message: {
     status: null,
     content: null,
@@ -21,6 +24,10 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AUTH_REQUEST:
+      return {
+        ...state,
+      };
     case AUTH_FAILURE:
       return {
         ...state,
@@ -32,23 +39,27 @@ const rootReducer = (state = initialState, action) => {
     case AUTH_SUCCESS:
       return {
         ...state,
-        userID: action.payload.data.jwt,
+        userJWT: action.payload.data.jwt,
+        userID: action.payload.data.user.id,
       };
     case LOGOUT:
       return {
         ...state,
-        userID: action.payload.userID,
+        userJWT: action.payload.userJWT,
+        userID: action.payload.id,
       };
     case FETCH_REQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case FETCH_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         [action.payload.itemType]: [...action.payload.data],
+      };
+    case ADD_ITEM_REQUEST:
+      return {
+        ...state,
       };
     case ADD_ITEM_SUCCESS:
       return {
@@ -69,6 +80,10 @@ const rootReducer = (state = initialState, action) => {
           status: action.payload.status,
           content: action.payload.content,
         },
+      };
+    case REMOVE_ITEM_REQUEST:
+      return {
+        ...state,
       };
     case REMOVE_ITEM_SUCCESS:
       return {

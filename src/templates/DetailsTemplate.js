@@ -9,8 +9,9 @@ import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import withContext from 'hoc/withContext';
 import Moment from 'react-moment';
+import { motion } from 'framer-motion';
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   padding: 25px 0 0 70px;
   max-width: 650px;
 `;
@@ -102,7 +103,12 @@ const DetailsTemplate = ({
 }) => {
   return (
     <UserPageTemplate>
-      <Wrapper>
+      <Wrapper
+        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, x: '-10vw' }}
+        animate={{ opacity: 1, x: '0' }}
+        exit={{ opacity: 0, x: '-10vw' }}
+      >
         <PageHeader pageContext={pageContext}>
           <InnerWrapper pageContext={pageContext}>
             <StyledHeading big as="h1">

@@ -10,8 +10,9 @@ import { connect } from 'react-redux';
 import { removeItem as removeItemAction } from 'actions';
 import withContext from 'hoc/withContext';
 import Moment from 'react-moment';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1);
   border-radius: 10px;
   overflow: hidden;
@@ -115,46 +116,51 @@ class Card extends Component {
       removeItem,
     } = this.props;
     const { redirect } = this.state;
-    if (redirect) {
-      return <Redirect to={`${pageContext}/${id}`} />;
-    }
+    if (redirect) return <Redirect to={`${pageContext}/${id}`} />;
 
     return (
-      <Wrapper>
-        <InnerWrapper activecolor={pageContext} flex="row">
-          <ItemsWrapper>
-            <StyledHeading>{title}</StyledHeading>
-            <DateInfo as={Moment} fromNow>
-              {created}
-            </DateInfo>
-          </ItemsWrapper>
-          {pageContext === 'twitters' && (
-            <Avatar
-              img={`http://twivatar.glitch.me/${twitterName}`}
-              href={`https://twitter.com/${twitterName}`}
-              target="_blanket"
-            />
-          )}
-          {pageContext === 'articles' && (
-            <LinkButton href={articleUrl} target="_blanket" />
-          )}
-        </InnerWrapper>
-        <InnerWrapper flex="column">
-          <Paragraph>{content}</Paragraph>
-          <ItemsWrapper flex>
-            <Button
-              onClick={this.handleClick}
-              secondary
-              activecolor={pageContext}
-            >
-              Open
-            </Button>
-            <Button onClick={() => removeItem(pageContext, id)} secondary>
-              Remove
-            </Button>
-          </ItemsWrapper>
-        </InnerWrapper>
-      </Wrapper>
+      <AnimatePresence exitBeforeEnter>
+        <Wrapper
+          key={id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <InnerWrapper activecolor={pageContext} flex="row">
+            <ItemsWrapper>
+              <StyledHeading>{title}</StyledHeading>
+              <DateInfo as={Moment} fromNow>
+                {created}
+              </DateInfo>
+            </ItemsWrapper>
+            {pageContext === 'twitters' && (
+              <Avatar
+                img={`http://twivatar.glitch.me/${twitterName}`}
+                href={`https://twitter.com/${twitterName}`}
+                target="_blanket"
+              />
+            )}
+            {pageContext === 'articles' && (
+              <LinkButton href={articleUrl} target="_blanket" />
+            )}
+          </InnerWrapper>
+          <InnerWrapper flex="column">
+            <Paragraph>{content}</Paragraph>
+            <ItemsWrapper flex>
+              <Button
+                onClick={this.handleClick}
+                secondary
+                activecolor={pageContext}
+              >
+                Open
+              </Button>
+              <Button onClick={() => removeItem(pageContext, id)} secondary>
+                Remove
+              </Button>
+            </ItemsWrapper>
+          </InnerWrapper>
+        </Wrapper>
+      </AnimatePresence>
     );
   }
 }

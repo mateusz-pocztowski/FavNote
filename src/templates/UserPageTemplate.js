@@ -22,7 +22,7 @@ const UserPageTemplate = ({ children, userID }) => {
 };
 
 UserPageTemplate.propTypes = {
-  userID: PropTypes.string,
+  userID: PropTypes.number,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]).isRequired,
 };
 
