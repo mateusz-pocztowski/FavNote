@@ -1,23 +1,22 @@
 import {
-  ADD_ITEM_SUCCESS,
-  REMOVE_ITEM_SUCCESS,
-  AUTH_SUCCESS,
-  FETCH_REQUEST,
-  FETCH_SUCCESS,
-  LOGOUT,
-  AUTH_FAILURE,
-  ADD_ITEM_FAILURE,
-  REMOVE_ITEM_FAILURE,
   AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_FAILURE,
+  LOGOUT,
+  FETCH_SUCCESS,
+  FETCH_REQUEST,
   ADD_ITEM_REQUEST,
+  ADD_ITEM_SUCCESS,
+  ADD_ITEM_FAILURE,
   REMOVE_ITEM_REQUEST,
-  FETCH_ONE_SUCCESS,
-  FETCH_ONE_REQUEST,
+  REMOVE_ITEM_SUCCESS,
+  REMOVE_ITEM_FAILURE,
 } from 'actions';
 
 export const initialState = {
   userJWT: null,
   userID: null,
+  isLoading: false,
   message: {
     status: null,
     content: null,
@@ -29,6 +28,7 @@ const rootReducer = (state = initialState, action) => {
     case AUTH_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
     case AUTH_FAILURE:
       return {
@@ -36,6 +36,7 @@ const rootReducer = (state = initialState, action) => {
         message: {
           status: action.payload.status,
           content: action.payload.content,
+          isLoading: false,
         },
       };
     case AUTH_SUCCESS:
@@ -43,6 +44,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         userJWT: action.payload.data.jwt,
         userID: action.payload.data.user.id,
+        isLoading: false,
       };
     case LOGOUT:
       return {
@@ -58,14 +60,6 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.payload.itemType]: [...action.payload.data],
-      };
-    case FETCH_ONE_REQUEST:
-      return {
-        ...state,
-      };
-    case FETCH_ONE_SUCCESS:
-      return {
-        ...state,
       };
     case ADD_ITEM_REQUEST:
       return {
