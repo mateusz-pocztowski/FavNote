@@ -1,74 +1,51 @@
-import React, { Component } from 'react';
+import React from 'react';
 import DetailsTemplate from 'templates/DetailsTemplate';
 import withContext from 'hoc/withContext';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 
-class DetailsView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeItem: {
-        title: '',
-        content: '',
-        articleUrl: '',
-        twitterName: '',
-        created_at: '',
-      },
-    };
-  }
-
-  componentDidMount() {
-    const {
-      match: {
-        params: { id },
-      },
-      pageContext,
-    } = this.props;
-    axios
-      .get(`http://localhost:1337/${pageContext}/${id}`)
-      .then(({ data }) => {
-        this.setState({ activeItem: data });
-      })
-      .catch(err => console.log(err));
-  }
-
-  render() {
-    const { activeItem } = this.state;
-    return (
-      <DetailsTemplate
-        title={activeItem.title}
-        content={activeItem.content}
-        articleUrl={activeItem.articleUrl}
-        twitterName={activeItem.twitterName}
-        created={activeItem.created_at}
-      />
-    );
-  }
-}
+const DetailsView = ({ activeItem }) => (
+  <DetailsTemplate
+    title={activeItem.title}
+    content={activeItem.content}
+    articleUrl={activeItem.articleUrl}
+    twitterName={activeItem.twitterName}
+    created={activeItem.created_at}
+  />
+);
 
 DetailsView.propTypes = {
-  pageContext: PropTypes.oneOf([
-    'login',
-    'register',
-    'notes',
-    'twitters',
-    'articles',
-  ]).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
   }).isRequired,
+  activeItem: PropTypes.shape({
+    title: PropTypes.string,
+    content: PropTypes.string,
+    articleUrl: PropTypes.string,
+    twitterName: PropTypes.string,
+    created_at: PropTypes.string,
+  }),
+};
+
+DetailsView.defaultProps = {
+  activeItem: {
+    title: '',
+    content: '',
+    articleUrl: '',
+    twitterName: '',
+    created_at: '',
+  },
 };
 
 const mapStateToProps = (state, ownProps) => {
-  if (state[ownProps.pageContext]) {
+  const currentItem = state[ownProps.pageContext].find(
+    item => item.id === Number(ownProps.match.params.id),
+  );
+  if (currentItem) {
     return {
-      activeItem: state[ownProps.pageContext].filter(
-        item => item.id === ownProps.match.params.id,
-      ),
+      activeItem: currentItem,
     };
   }
   return {};

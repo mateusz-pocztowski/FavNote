@@ -11,9 +11,11 @@ import {
   AUTH_REQUEST,
   ADD_ITEM_REQUEST,
   REMOVE_ITEM_REQUEST,
+  FETCH_ONE_SUCCESS,
+  FETCH_ONE_REQUEST,
 } from 'actions';
 
-const initialState = {
+export const initialState = {
   userJWT: null,
   userID: null,
   message: {
@@ -56,6 +58,14 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.payload.itemType]: [...action.payload.data],
+      };
+    case FETCH_ONE_REQUEST:
+      return {
+        ...state,
+      };
+    case FETCH_ONE_SUCCESS:
+      return {
+        ...state,
       };
     case ADD_ITEM_REQUEST:
       return {

@@ -10,6 +10,7 @@ import DetailsView from 'views/DetailsView';
 import { routes } from 'routes';
 import store from 'store';
 import { AnimatePresence } from 'framer-motion';
+import PrivateRoute from 'utils/PrivateRoute';
 
 const Root = () => (
   <Provider store={store}>
@@ -17,20 +18,52 @@ const Root = () => (
       <MainTemplate>
         <AnimatePresence>
           <Switch>
-            {store.getState().userID && <Redirect to={routes.login} />}
-            <Route exact path={routes.login} component={AuthView} />
-            <Route exact path={routes.register} component={AuthView} />
             <Route
               exact
               path={routes.home}
-              render={() => <Redirect to={routes.login} />}
+              render={() =>
+                store.getState().userJWT ? (
+                  <Redirect to={routes.notes} />
+                ) : (
+                  <Redirect to={routes.login} />
+                )
+              }
             />
-            <Route exact path={routes.notes} component={NotesView} />
-            <Route path={routes.note} component={DetailsView} />
-            <Route exact path={routes.twitters} component={TwittersView} />
-            <Route path={routes.twitter} component={DetailsView} />
-            <Route exact path={routes.articles} component={ArticlesView} />
-            <Route path={routes.article} component={DetailsView} />
+            <Route exact path={routes.login} component={AuthView} />
+            <Route exact path={routes.register} component={AuthView} />
+            <PrivateRoute
+              exact
+              path={routes.notes}
+              component={NotesView}
+              token={store.getState().userJWT}
+            />
+            <PrivateRoute
+              path={routes.note}
+              component={DetailsView}
+              token={store.getState().userJWT}
+            />
+            <PrivateRoute
+              exact
+              path={routes.twitters}
+              component={TwittersView}
+              token={store.getState().userJWT}
+            />
+            <PrivateRoute
+              path={routes.twitter}
+              component={DetailsView}
+              token={store.getState().userJWT}
+            />
+            <PrivateRoute
+              exact
+              path={routes.articles}
+              component={ArticlesView}
+              token={store.getState().userJWT}
+            />
+            <PrivateRoute
+              path={routes.article}
+              component={DetailsView}
+              token={store.getState().userJWT}
+            />
           </Switch>
         </AnimatePresence>
       </MainTemplate>

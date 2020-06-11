@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import Input from 'components/atoms/Input/Input';
 import Button from 'components/atoms/Button/Button';
@@ -55,15 +55,6 @@ const StyledInput = styled(Input)`
   background-color: hsl(0, 0%, 90%);
 `;
 
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
 const StyledButton = styled(Button)`
   position: relative;
   margin: 20px auto 0;
@@ -72,20 +63,6 @@ const StyledButton = styled(Button)`
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   &:hover {
     background-color: ${({ theme }) => theme.notes100};
-  }
-  &::before {
-    content: '';
-    position: absolute;
-    left: 17%;
-    top: 13px;
-    width: 20px;
-    height: 20px;
-    border: 3px solid ${({ theme }) => theme.dark};
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
-    border-radius: 50%;
-    opacity: ${({ disabled }) => (disabled ? '1' : '0')};
-    animation: ${spin} 1s ease infinite;
   }
 `;
 
@@ -150,7 +127,7 @@ const StyledErrorMsg = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
-const AuthTemplate = ({ pageContext, authenticate, userID }) => {
+const AuthTemplate = ({ authType, authenticate, userID }) => {
   if (userID) return <Redirect to={routes.notes} />;
   return (
     <StyledWrapper>
@@ -167,17 +144,17 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
         </IconsWrapper>
         <StyledHeader>
           <StyledHeading as="h2">
-            {pageContext === 'login' ? 'Sign in' : 'Sign up'}
+            {authType === 'login' ? 'Sign in' : 'Sign up'}
           </StyledHeading>
           <Formik
             initialValues={{ email: '', username: '', password: '' }}
             validate={({ email, username, password }) => {
               const errors = {};
-              if (!email && pageContext === 'register')
+              if (!email && authType === 'register')
                 errors.email = 'E-mail is required';
               if (!username) errors.username = 'Username is required';
               else if (
-                pageContext === 'register' &&
+                authType === 'register' &&
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
               ) {
                 errors.email = 'Invalid email address';
@@ -185,15 +162,9 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
               if (!password) errors.password = 'Password is required';
               return errors;
             }}
-            onSubmit={(
-              { email, username, password },
-              { setSubmitting, resetForm },
-            ) => {
-              setTimeout(() => {
-                authenticate(email, username, password, pageContext);
-                resetForm();
-                setSubmitting(false);
-              }, 1000);
+            onSubmit={({ email, username, password }, { resetForm }) => {
+              authenticate(email, username, password, authType);
+              resetForm();
             }}
           >
             {({
@@ -203,11 +174,10 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
               handleChange,
               handleBlur,
               handleSubmit,
-              isSubmitting,
               resetForm,
             }) => (
               <Form onSubmit={handleSubmit}>
-                {pageContext === 'register' && (
+                {authType === 'register' && (
                   <>
                     <StyledErrorMsg>
                       {errors.email && touched.email && errors.email}
@@ -253,15 +223,15 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
                     touched.password && errors.password && 'hsl(4, 82%, 56%)'
                   }
                 />
-                <StyledButton type="submit" disabled={isSubmitting}>
-                  {pageContext === 'login' ? 'Log in' : 'Register'}
+                <StyledButton type="submit">
+                  {authType === 'login' ? 'Log in' : 'Register'}
                 </StyledButton>
                 <StyledLink
                   as={Link}
-                  to={pageContext === 'login' ? routes.register : routes.login}
+                  to={authType === 'login' ? routes.register : routes.login}
                   onClick={resetForm}
                 >
-                  {pageContext === 'login'
+                  {authType === 'login'
                     ? 'I want to log in!'
                     : 'I want my account!'}
                 </StyledLink>
@@ -275,26 +245,21 @@ const AuthTemplate = ({ pageContext, authenticate, userID }) => {
 };
 
 AuthTemplate.propTypes = {
-  pageContext: PropTypes.oneOf([
-    'login',
-    'register',
-    'notes',
-    'twitters',
-    'articles',
-  ]).isRequired,
+  authType: PropTypes.oneOf(['login', 'register']),
   authenticate: PropTypes.func.isRequired,
   userID: PropTypes.number,
 };
 
 AuthTemplate.defaultProps = {
+  authType: 'login',
   userID: null,
 };
 
 const mapStateToProps = ({ userID = null }) => ({ userID });
 
 const mapDispatchToProps = dispatch => ({
-  authenticate: (email, username, password, pageContext) =>
-    dispatch(authenticateAction(email, username, password, pageContext)),
+  authenticate: (email, username, password, authType) =>
+    dispatch(authenticateAction(email, username, password, authType)),
 });
 
 export default connect(

@@ -79,10 +79,6 @@ const Avatar = styled.a`
   height: 86px;
   border: 5px solid ${({ theme }) => theme.twitters};
   box-shadow: 0 10px 30px 0 hsla(0, 0%, 0%, 0.15);
-  transition: 0.3s;
-  &:hover {
-    border-color: ${({ theme }) => theme.dark};
-  }
 `;
 
 const LinkButton = styled.a`
@@ -166,13 +162,7 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  pageContext: PropTypes.oneOf([
-    'login',
-    'register',
-    'notes',
-    'twitters',
-    'articles',
-  ]).isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   title: PropTypes.string.isRequired,
   twitterName: PropTypes.string,
   articleUrl: PropTypes.string,
@@ -183,6 +173,7 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
+  pageContext: 'notes',
   twitterName: null,
   articleUrl: null,
 };

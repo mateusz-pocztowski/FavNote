@@ -16,6 +16,10 @@ export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 
+export const FETCH_ONE_REQUEST = 'FETCH_ONE_REQUEST';
+export const FETCH_ONE_SUCCESS = 'FETCH_ONE_SUCCESS';
+export const FETCH_ONE_FAILURE = 'FETCH_ONE_FAILURE';
+
 export const LOGOUT = 'LOGOUT';
 
 export const authenticate = (
@@ -44,13 +48,8 @@ export const authenticate = (
       dispatch({ type: AUTH_SUCCESS, payload });
     }
   } catch (err) {
-    const {
-      data: { data },
-      status,
-    } = err.response;
-    const [{ messages }] = data;
-    const [{ message }] = messages;
-    dispatch({ type: AUTH_FAILURE, payload: { message, status } });
+    console.log(err.response);
+    dispatch({ type: AUTH_FAILURE });
   }
 };
 
@@ -85,7 +84,32 @@ export const fetchItems = itemType => async (dispatch, getState) => {
     });
   } catch (err) {
     const { status } = err.response;
-    dispatch({ type: REMOVE_ITEM_FAILURE, payload: { status } });
+    dispatch({ type: FETCH_FAILURE, payload: { status } });
+  }
+};
+
+export const fetchSingleItem = path => async (dispatch, getState) => {
+  dispatch({ type: FETCH_ONE_REQUEST });
+  if (!getState().userJWT) return;
+  try {
+    const { data } = await axios.get(
+      `http://localhost:1337${path}?user.id=${getState().userID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getState().userJWT}`,
+        },
+      },
+    );
+    dispatch({
+      type: FETCH_ONE_SUCCESS,
+      payload: {
+        data,
+      },
+    });
+  } catch (err) {
+    console.log(err.response);
+    const { status } = err.response;
+    dispatch({ type: FETCH_FAILURE, payload: { status } });
   }
 };
 

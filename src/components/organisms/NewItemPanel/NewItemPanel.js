@@ -38,6 +38,7 @@ const StyledTextarea = styled(StyledInput)`
   border-radius: 20px;
   padding-top: 30px;
   resize: none;
+  white-space: pre-line;
 `;
 
 const StyledErrorMsg = styled.p`
@@ -206,16 +207,14 @@ const NewItemPanel = ({
 );
 
 NewItemPanel.propTypes = {
-  pageContext: PropTypes.oneOf([
-    'login',
-    'register',
-    'notes',
-    'twitters',
-    'articles',
-  ]).isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   isVisible: PropTypes.bool.isRequired,
   addItem: PropTypes.func.isRequired,
   handleClosePanel: PropTypes.func.isRequired,
+};
+
+NewItemPanel.defaultProps = {
+  pageContext: 'notes',
 };
 
 const mapDispatchToProps = dispatch => ({

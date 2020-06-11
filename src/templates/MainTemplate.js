@@ -23,15 +23,14 @@ class MainTemplate extends Component {
   }
 
   setPageType = (prevState = '') => {
-    const pageTypes = ['notes', 'twitters', 'articles', 'login', 'register'];
+    const pageTypes = ['notes', 'twitters', 'articles'];
     const {
       location: { pathname },
     } = this.props;
 
     const [currentPage] = pageTypes.filter(page => pathname.includes(page));
-    if (prevState.pageType !== currentPage) {
+    if (prevState.pageType !== currentPage)
       this.setState({ pageType: currentPage });
-    }
   };
 
   render() {

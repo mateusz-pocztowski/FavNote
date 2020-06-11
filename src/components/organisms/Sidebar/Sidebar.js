@@ -94,15 +94,13 @@ const Sidebar = ({ theme, pageContext, logout }) => {
 };
 
 Sidebar.propTypes = {
-  pageContext: PropTypes.oneOf([
-    'login',
-    'register',
-    'notes',
-    'twitters',
-    'articles',
-  ]).isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   logout: PropTypes.func.isRequired,
   theme: PropTypes.shape().isRequired,
+};
+
+Sidebar.defaultProps = {
+  pageContext: 'notes',
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -70,10 +70,6 @@ const StyledAvatar = styled.a`
   border-radius: 50%;
   border: 4px solid ${({ theme }) => theme.twitters};
   box-shadow: 0 10px 20px -10px hsla(0, 0%, 0%, 0.2);
-  transition: 0.3s;
-  &:hover {
-    border-color: ${({ theme }) => theme.dark};
-  }
 `;
 
 const StyledLink = styled(Paragraph)`
@@ -104,10 +100,10 @@ const DetailsTemplate = ({
   return (
     <UserPageTemplate>
       <Wrapper
-        transition={{ duration: 0.3 }}
-        initial={{ opacity: 0, x: '-10vw' }}
-        animate={{ opacity: 1, x: '0' }}
-        exit={{ opacity: 0, x: '-10vw' }}
+        transition={{ duration: 0.7 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
         <PageHeader pageContext={pageContext}>
           <InnerWrapper pageContext={pageContext}>
@@ -153,13 +149,7 @@ const DetailsTemplate = ({
 };
 
 DetailsTemplate.propTypes = {
-  pageContext: PropTypes.oneOf([
-    'login',
-    'register',
-    'notes',
-    'twitters',
-    'articles',
-  ]).isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
@@ -168,6 +158,7 @@ DetailsTemplate.propTypes = {
 };
 
 DetailsTemplate.defaultProps = {
+  pageContext: 'notes',
   articleUrl: null,
   twitterName: null,
 };
