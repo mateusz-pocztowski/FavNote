@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import Heading from 'components/atoms/Heading/Heading';
 import Input from 'components/atoms/Input/Input';
-import Button from 'components/atoms/Button/Button';
+import SubmitButton from 'components/molecules/SubmitButton/SubmitButton';
 import withContext from 'hoc/withContext';
 import { addItem as addItemAction } from 'actions';
 import { connect } from 'react-redux';
@@ -46,35 +46,6 @@ const StyledErrorMsg = styled.p`
   color: hsl(4, 82%, 56%);
   padding-left: 15px;
   font-size: ${({ theme }) => theme.fontSize.xs};
-`;
-
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const StyledButton = styled(Button)`
-  position: relative;
-  opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
-  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
-  &::before {
-    content: '';
-    position: absolute;
-    left: 17%;
-    top: 13px;
-    width: 20px;
-    height: 20px;
-    border: 3px solid ${({ theme }) => theme.dark};
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
-    border-radius: 50%;
-    opacity: ${({ disabled }) => (disabled ? '1' : '0')};
-    animation: ${spin} 1s ease infinite;
-  }
 `;
 
 const NewItemPanel = ({
@@ -193,13 +164,9 @@ const NewItemPanel = ({
               touched.content && errors.content && '1px solid hsl(4, 82%, 56%)'
             }
           />
-          <StyledButton
-            type="submit"
-            disabled={isSubmitting}
-            activecolor={pageContext}
-          >
+          <SubmitButton disabled={isSubmitting} activecolor={pageContext}>
             Add Item
-          </StyledButton>
+          </SubmitButton>
         </Form>
       )}
     </Formik>

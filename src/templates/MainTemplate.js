@@ -5,7 +5,6 @@ import GlobalStyle from 'theme/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'theme/mainTheme';
 import PageContext from 'context';
-import Loader from 'components/organisms/Loader/Loader';
 
 class MainTemplate extends Component {
   constructor(props) {
@@ -40,10 +39,7 @@ class MainTemplate extends Component {
     return (
       <PageContext.Provider value={pageType}>
         <GlobalStyle />
-        <ThemeProvider theme={theme}>
-          <Loader />
-          {children}
-        </ThemeProvider>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </PageContext.Provider>
     );
   }

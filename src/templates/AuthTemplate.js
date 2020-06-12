@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import Input from 'components/atoms/Input/Input';
 import Button from 'components/atoms/Button/Button';
+import SubmitButton from 'components/molecules/SubmitButton/SubmitButton';
 import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import logoIcon from 'assets/icons/logo.svg';
@@ -53,17 +54,6 @@ const StyledInput = styled(Input)`
   width: 100%;
   border-color: ${props => props.border || '#ddd'};
   background-color: hsl(0, 0%, 90%);
-`;
-
-const StyledButton = styled(Button)`
-  position: relative;
-  margin: 20px auto 0;
-  background-color: ${({ theme }) => theme.notes};
-  opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
-  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
-  &:hover {
-    background-color: ${({ theme }) => theme.notes100};
-  }
 `;
 
 const StyledLink = styled(Button)`
@@ -162,9 +152,15 @@ const AuthTemplate = ({ authType, authenticate, userID }) => {
               if (!password) errors.password = 'Password is required';
               return errors;
             }}
-            onSubmit={({ email, username, password }, { resetForm }) => {
-              authenticate(email, username, password, authType);
-              resetForm();
+            onSubmit={(
+              { email, username, password },
+              { resetForm, setSubmitting },
+            ) => {
+              setTimeout(() => {
+                authenticate(email, username, password, authType);
+                resetForm();
+                setSubmitting(false);
+              }, 1000);
             }}
           >
             {({
@@ -175,6 +171,7 @@ const AuthTemplate = ({ authType, authenticate, userID }) => {
               handleBlur,
               handleSubmit,
               resetForm,
+              isSubmitting,
             }) => (
               <Form onSubmit={handleSubmit}>
                 {authType === 'register' && (
@@ -223,9 +220,9 @@ const AuthTemplate = ({ authType, authenticate, userID }) => {
                     touched.password && errors.password && 'hsl(4, 82%, 56%)'
                   }
                 />
-                <StyledButton type="submit">
+                <SubmitButton centered disabled={isSubmitting}>
                   {authType === 'login' ? 'Log in' : 'Register'}
-                </StyledButton>
+                </SubmitButton>
                 <StyledLink
                   as={Link}
                   to={authType === 'login' ? routes.register : routes.login}
@@ -255,7 +252,7 @@ AuthTemplate.defaultProps = {
   userID: null,
 };
 
-const mapStateToProps = ({ userID = null }) => ({ userID });
+const mapStateToProps = ({ userID }) => ({ userID });
 
 const mapDispatchToProps = dispatch => ({
   authenticate: (email, username, password, authType) =>

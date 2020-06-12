@@ -3,6 +3,7 @@ import {
   AUTH_SUCCESS,
   AUTH_FAILURE,
   LOGOUT,
+  HIDE_LOADER,
   FETCH_SUCCESS,
   FETCH_REQUEST,
   ADD_ITEM_REQUEST,
@@ -17,6 +18,7 @@ export const initialState = {
   userJWT: null,
   userID: null,
   isLoading: false,
+  isSubmitting: false,
   message: {
     status: null,
     content: null,
@@ -28,15 +30,15 @@ const rootReducer = (state = initialState, action) => {
     case AUTH_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isSubmitting: true,
       };
     case AUTH_FAILURE:
       return {
         ...state,
+        isSubmitting: false,
         message: {
           status: action.payload.status,
           content: action.payload.content,
-          isLoading: false,
         },
       };
     case AUTH_SUCCESS:
@@ -44,17 +46,28 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         userJWT: action.payload.data.jwt,
         userID: action.payload.data.user.id,
-        isLoading: false,
+        isSubmitting: false,
       };
     case LOGOUT:
       return {
+        userJWT: null,
+        userID: null,
+        isLoading: true,
+        isSubmitting: false,
+        message: {
+          status: null,
+          content: null,
+        },
+      };
+    case HIDE_LOADER:
+      return {
         ...state,
-        userJWT: action.payload.userJWT,
-        userID: action.payload.id,
+        isLoading: action.payload.isLoading,
       };
     case FETCH_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
     case FETCH_SUCCESS:
       return {
@@ -64,6 +77,7 @@ const rootReducer = (state = initialState, action) => {
     case ADD_ITEM_REQUEST:
       return {
         ...state,
+        isSubmitting: true,
       };
     case ADD_ITEM_SUCCESS:
       return {
@@ -76,6 +90,7 @@ const rootReducer = (state = initialState, action) => {
           ...state[action.payload.itemType],
           action.payload.data,
         ],
+        isSubmitting: false,
       };
     case ADD_ITEM_FAILURE:
       return {
@@ -83,6 +98,7 @@ const rootReducer = (state = initialState, action) => {
         message: {
           status: action.payload.status,
           content: action.payload.content,
+          isSubmitting: false,
         },
       };
     case REMOVE_ITEM_REQUEST:

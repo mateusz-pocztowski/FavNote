@@ -10,7 +10,6 @@ import plusIcon from 'assets/icons/plus.svg';
 import withContext from 'hoc/withContext';
 import NewItemPanel from 'components/organisms/NewItemPanel/NewItemPanel';
 import emptyStateImg from 'assets/images/emptyState.png';
-import Notification from 'components/molecules/Notification/Notification';
 import { motion } from 'framer-motion';
 
 const Wrapper = styled.div`
@@ -103,7 +102,6 @@ class GridTemplate extends Component {
     return (
       <UserPageTemplate>
         <Wrapper>
-          <Notification />
           <motion.div
             transition={{ duration: 0.3 }}
             initial={{ opacity: 0, y: '-10vh' }}

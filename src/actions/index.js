@@ -16,42 +16,8 @@ export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 
-export const FETCH_ONE_REQUEST = 'FETCH_ONE_REQUEST';
-export const FETCH_ONE_SUCCESS = 'FETCH_ONE_SUCCESS';
-export const FETCH_ONE_FAILURE = 'FETCH_ONE_FAILURE';
-
+export const HIDE_LOADER = 'HIDE_LOADER';
 export const LOGOUT = 'LOGOUT';
-
-export const authenticate = (
-  email,
-  id,
-  password,
-  authType,
-) => async dispatch => {
-  dispatch({ type: AUTH_REQUEST });
-  try {
-    if (authType === 'register') {
-      const payload = await axios.post(
-        `http://localhost:1337/auth/local/register`,
-        {
-          email,
-          id,
-          password,
-        },
-      );
-      dispatch({ type: AUTH_SUCCESS, payload });
-    } else if (authType === 'login') {
-      const payload = await axios.post(`http://localhost:1337/auth/local`, {
-        identifier: id || email,
-        password,
-      });
-      dispatch({ type: AUTH_SUCCESS, payload });
-    }
-  } catch (err) {
-    console.log(err.response);
-    dispatch({ type: AUTH_FAILURE });
-  }
-};
 
 export const logout = () => {
   return {
@@ -88,29 +54,47 @@ export const fetchItems = itemType => async (dispatch, getState) => {
   }
 };
 
-export const fetchSingleItem = path => async (dispatch, getState) => {
-  dispatch({ type: FETCH_ONE_REQUEST });
-  if (!getState().userJWT) return;
+export const authenticate = (
+  email,
+  id,
+  password,
+  authType,
+) => async dispatch => {
+  dispatch({ type: AUTH_REQUEST });
   try {
-    const { data } = await axios.get(
-      `http://localhost:1337${path}?user.id=${getState().userID}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getState().userJWT}`,
+    if (authType === 'register') {
+      const payload = await axios.post(
+        `http://localhost:1337/auth/local/register`,
+        {
+          email,
+          id,
+          password,
         },
-      },
-    );
-    dispatch({
-      type: FETCH_ONE_SUCCESS,
-      payload: {
-        data,
-      },
-    });
+      );
+      dispatch({ type: AUTH_SUCCESS, payload });
+    } else if (authType === 'login') {
+      const payload = await axios.post(`http://localhost:1337/auth/local`, {
+        identifier: id || email,
+        password,
+      });
+      dispatch({ type: AUTH_SUCCESS, payload });
+    }
+    dispatch(fetchItems('notes'));
+    dispatch(fetchItems('twitters'));
+    dispatch(fetchItems('articles'));
   } catch (err) {
     console.log(err.response);
-    const { status } = err.response;
-    dispatch({ type: FETCH_FAILURE, payload: { status } });
+    dispatch({ type: AUTH_FAILURE, payload: 400 });
   }
+};
+
+export const hideLoader = () => {
+  return {
+    type: HIDE_LOADER,
+    payload: {
+      isLoading: false,
+    },
+  };
 };
 
 export const removeItem = (itemType, id) => (dispatch, getState) => {

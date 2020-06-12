@@ -5,11 +5,15 @@ import { routes } from 'routes';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const PrivateRoute = ({ component: Component, token, ...rest }) => (
+const PrivateRoute = ({ component: Component, token, isLoading, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      token ? <Component {...props} /> : <Redirect to={routes.login} />
+      !token && !isLoading ? (
+        <Redirect to={routes.login} />
+      ) : (
+        <Component {...props} />
+      )
     }
   />
 );
@@ -20,14 +24,16 @@ PrivateRoute.propTypes = {
     PropTypes.func,
   ]).isRequired,
   token: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 PrivateRoute.defaultProps = {
   token: null,
 };
 
-const mapStateToProps = ({ userJWT }) => ({
+const mapStateToProps = ({ userJWT, isLoading }) => ({
   token: userJWT,
+  isLoading,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

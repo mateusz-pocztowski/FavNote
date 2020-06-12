@@ -15,7 +15,7 @@ import { logout as logoutUser } from 'actions';
 import { motion } from 'framer-motion';
 
 const Wrapper = styled(motion.div)`
-  background-color: ${({ theme }) => theme.notes};
+  background-color: ${({ theme, activecolor }) => theme[activecolor]};
   position: fixed;
   top: 0;
   left: 0;
@@ -60,7 +60,7 @@ const Logout = styled(ButtonIcon)`
 const Sidebar = ({ theme, pageContext, logout }) => {
   return (
     <Wrapper
-      style={{ backgroundColor: theme[pageContext] }}
+      activecolor={pageContext}
       animate={{ backgroundColor: theme[pageContext] }}
       transition={{ duration: 0.5 }}
     >
