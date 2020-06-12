@@ -40,15 +40,12 @@ DetailsView.defaultProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const currentItem = state[ownProps.pageContext].find(
-    item => item.id === Number(ownProps.match.params.id),
-  );
-  if (currentItem) {
-    return {
-      activeItem: currentItem,
-    };
-  }
-  return {};
+  if (!state[ownProps.pageContext]) return {};
+  return {
+    activeItem: state[ownProps.pageContext].find(
+      item => item.id === Number(ownProps.match.params.id),
+    ),
+  };
 };
 
 export default withContext(connect(mapStateToProps)(DetailsView));

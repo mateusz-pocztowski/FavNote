@@ -11,14 +11,11 @@ const Wrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 100;
-  transition: 0.35s all ease;
   background-color: #ffffff;
-  opacity: ${({ visible }) => (visible ? '1' : '0')};
-  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
   background-image: linear-gradient(
     to right top,
     #ffd829,

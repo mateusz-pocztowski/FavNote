@@ -47,6 +47,7 @@ const rootReducer = (state = initialState, action) => {
         userJWT: action.payload.data.jwt,
         userID: action.payload.data.user.id,
         isSubmitting: false,
+        isLoading: true,
       };
     case LOGOUT:
       return {

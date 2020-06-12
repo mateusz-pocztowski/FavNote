@@ -117,8 +117,8 @@ const StyledErrorMsg = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
-const AuthTemplate = ({ authType, authenticate, userID }) => {
-  if (userID) return <Redirect to={routes.notes} />;
+const AuthTemplate = ({ authType, authenticate, userID, isLoading }) => {
+  if (userID && !isLoading) return <Redirect to={routes.notes} />;
   return (
     <StyledWrapper>
       <Notification />
@@ -244,6 +244,7 @@ const AuthTemplate = ({ authType, authenticate, userID }) => {
 AuthTemplate.propTypes = {
   authType: PropTypes.oneOf(['login', 'register']),
   authenticate: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   userID: PropTypes.number,
 };
 
@@ -252,7 +253,7 @@ AuthTemplate.defaultProps = {
   userID: null,
 };
 
-const mapStateToProps = ({ userID }) => ({ userID });
+const mapStateToProps = ({ userID, isLoading }) => ({ userID, isLoading });
 
 const mapDispatchToProps = dispatch => ({
   authenticate: (email, username, password, authType) =>

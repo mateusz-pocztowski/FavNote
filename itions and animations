@@ -1,0 +1,53 @@
+[33mcommit 6bcacb92c8634b5ecf65f00a729cf93d20a31050[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Fri Jun 12 18:52:07 2020 +0200
+
+    Added Page Loader
+
+[33mcommit 6fc7a75ac9c4754172614bbb0eb46a7dd12d0b9d[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Thu Jun 11 23:37:47 2020 +0200
+
+    Added loading screen
+
+[33mcommit 7a407744b3ffa1be3a70530c2c828c77b8f883a2[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Thu Jun 11 21:22:35 2020 +0200
+
+    Added private routes and fixed detailed views
+
+[33mcommit fa49cf8efafaf3681f1c5c6499fd7ac0f03403a8[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Tue Jun 9 22:03:48 2020 +0200
+
+    Added transitions and animations
+
+[33mcommit c9927a346c71edfb7dbf2e3f31eff8dc6d70cb2b[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Sun Jun 7 22:40:42 2020 +0200
+
+    Added notifications
+
+[33mcommit d081efa9f174f7b2af27e4dec5bb55d13c18b69d[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Sun Jun 7 00:41:31 2020 +0200
+
+    Added empty state screen
+
+[33mcommit 8be9224a4aff08c645bd66603653a5c7282a5416[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Sat Jun 6 23:46:24 2020 +0200
+
+    Added API features
+
+[33mcommit 9bbadcdb591518f6dc068c88f22ed174a3a076cf[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Sat May 30 20:42:06 2020 +0200
+
+    ww
+
+[33mcommit 3f78bf0693db7320710990033b2b5b7251287cbf[m
+Author: mateusz-pocztowski <55945204+mateusz-pocztowski@users.noreply.github.com>
+Date:   Sat May 30 20:37:14 2020 +0200
+
+    initial commit

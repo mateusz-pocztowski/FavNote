@@ -56,7 +56,7 @@ export const fetchItems = itemType => async (dispatch, getState) => {
 
 export const authenticate = (
   email,
-  id,
+  username,
   password,
   authType,
 ) => async dispatch => {
@@ -67,14 +67,14 @@ export const authenticate = (
         `http://localhost:1337/auth/local/register`,
         {
           email,
-          id,
+          username,
           password,
         },
       );
       dispatch({ type: AUTH_SUCCESS, payload });
     } else if (authType === 'login') {
       const payload = await axios.post(`http://localhost:1337/auth/local`, {
-        identifier: id || email,
+        identifier: username || email,
         password,
       });
       dispatch({ type: AUTH_SUCCESS, payload });
