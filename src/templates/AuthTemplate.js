@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import Input from 'components/atoms/Input/Input';
 import Button from 'components/atoms/Button/Button';
-import SubmitButton from 'components/molecules/SubmitButton/SubmitButton';
-import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
-import logoIcon from 'assets/icons/logo.svg';
-import penIcon from 'assets/icons/pen.svg';
-import bulbIcon from 'assets/icons/bulb.svg';
-import twitterIcon from 'assets/icons/twitter.svg';
+import SubmitButton from 'components/molecules/SubmitButton/SubmitButton';
+import bgImage from 'assets/images/background.jpg';
+import Heading from 'components/atoms/Heading/Heading';
+import headerIcon from 'assets/icons/idea.svg';
 import withContext from 'hoc/withContext';
 import Notification from 'components/molecules/Notification/Notification';
+import BulbIcon from 'assets/icons/bulb.svg';
+import penIcon from 'assets/icons/pen.svg';
+import twitterIcon from 'assets/icons/twitter.svg';
 import { Link, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import PropTypes from 'prop-types';
@@ -25,29 +26,96 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.notes};
+  background-color: #ffe470;
   overflow: hidden;
+  &:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    clip-path: polygon(0 73%, 0 8%, 100% 100%, 28% 100%);
+    background-color: rgba(255, 232, 128, 0.6);
+  }
 `;
 
 const StyledContentWrapper = styled.div`
   position: fixed;
-  top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60vw;
+  height: 70vh;
+  padding: 50px 50px 50px 65px;
+  box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.3);
+  border-radius: 10px;
+  background-color: #ffffff;
+  background: url(${bgImage}) no-repeat;
+  background-size: cover;
+`;
+
+const StyledForm = styled.div`
+  flex-basis: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 30px 50px;
+  background-color: #ffffff;
+  box-shadow: 0 0 30px -10px hsla(0, 0%, 0%, 0.3);
+  border-radius: 10px;
+`;
+
+const Header = styled.div`
+  flex-basis: 60%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
-const StyledHeader = styled.div`
-  width: 450px;
-  min-height: 400px;
+const HeaderImage = styled.div`
+  width: 350px;
+  height: 350px;
+  background: url(${headerIcon}) no-repeat center;
+  background-size: 100%;
+`;
+
+const HeaderText = styled(Heading)`
+  margin: 0;
+  font-weight: ${({ theme }) => theme.regular};
+  font-size: ${({ theme }) => theme.fontSize.lm};
+`;
+
+const IconsWrapper = styled.div`
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 40px 60px 50px;
-  box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.3);
+`;
+
+const Icon = styled.div`
+  width: 50px;
+  height: 50px;
+  margin: 15px 0;
+  background: url(${({ icon }) => icon}) no-repeat center;
+  background-size: ${({ size }) => size};
+  background-color: ${({ theme }) => theme.gray200};
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.gray100};
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  font-weight: ${({ theme }) => theme.regular};
+  margin: 15px 0 30px;
+`;
+
+const StyledHeading = styled(Heading)`
+  margin: 10px 0;
+  font-size: ${({ theme }) => theme.fontSize.lm};
 `;
 
 const StyledInput = styled(Input)`
@@ -72,48 +140,21 @@ const StyledLink = styled(Button)`
   }
 `;
 
-const StyledHeading = styled(Heading)`
-  margin: 10px 0;
-  font-size: ${({ theme }) => theme.fontSize.lm};
+const StyledLogo = styled.svg`
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  fill: #fff;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.2));
 `;
 
-const StyledParagraph = styled(Paragraph)`
-  font-weight: ${({ theme }) => theme.bold};
-  font-size: ${({ theme }) => theme.fontSize.l};
-  max-width: 450px;
-  text-align: center;
-  margin: 0;
-`;
-
-const StyledLogo = styled.div`
-  width: 180px;
-  height: 180px;
-  background: url(${logoIcon}) no-repeat center;
-  background-size: 100%;
-  margin: 0;
-  filter: invert(1) drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.2));
-`;
-
-const IconsWrapper = styled.div`
-  width: 450px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 15px 0;
-`;
-
-const StyledIcon = styled.div`
-  width: 50px;
-  height: 50px;
-  margin: 0 12px;
-  background: url(${({ icon }) => icon}) no-repeat center;
-  background-size: ${({ size }) => size || '70%'};
-`;
-
-const StyledErrorMsg = styled.p`
+const StyledErrorMsg = styled.span`
   margin: 15px 0 5px;
   color: hsl(4, 82%, 56%);
   padding-left: 15px;
+  display: block;
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
@@ -123,16 +164,18 @@ const AuthTemplate = ({ authType, authenticate, userID, isLoading }) => {
     <StyledWrapper>
       <Notification />
       <StyledContentWrapper>
-        <StyledLogo />
-        <StyledParagraph>
-          Your new favorite online notes memorable experience!
-        </StyledParagraph>
-        <IconsWrapper>
-          <StyledIcon icon={penIcon} />
-          <StyledIcon icon={twitterIcon} />
-          <StyledIcon icon={bulbIcon} size="48%" />
-        </IconsWrapper>
-        <StyledHeader>
+        <StyledLogo
+          xmlns="http://www.w3.org/2000/svg"
+          width="71.916"
+          height="44.925"
+          viewBox="0 0 71.916 44.925"
+        >
+          <path
+            d="M8.994-15.75v5.284H19.6v5.25H8.994V3.018H2.2V-21H21.037v5.25Zm30.4,14.1H29.238L27.351,3.018H20.42L31.022-21h6.691L48.349,3.018H41.281ZM37.4-6.658l-3.088-7.686L31.228-6.658ZM73.293-21,63,3.018H56.309L46.05-21h7.343L59.912-5.354,66.568-21ZM16.634,7.593V23.6H12.906L5.838,15.072V23.6H1.4V7.593H5.128L12.2,16.125V7.593ZM27.911,23.925a9.577,9.577,0,0,1-4.563-1.075A8.015,8.015,0,0,1,19.013,15.6a8.015,8.015,0,0,1,4.335-7.251,9.577,9.577,0,0,1,4.563-1.075,9.577,9.577,0,0,1,4.563,1.075A8.015,8.015,0,0,1,36.809,15.6a8.015,8.015,0,0,1-4.335,7.251A9.577,9.577,0,0,1,27.911,23.925Zm0-3.751a4.289,4.289,0,0,0,2.2-.572,4.113,4.113,0,0,0,1.555-1.613,4.883,4.883,0,0,0,.572-2.39,4.883,4.883,0,0,0-.572-2.39A4.113,4.113,0,0,0,30.107,11.6a4.5,4.5,0,0,0-4.392,0,4.113,4.113,0,0,0-1.555,1.613,4.883,4.883,0,0,0-.572,2.39,4.883,4.883,0,0,0,.572,2.39A4.113,4.113,0,0,0,25.715,19.6,4.289,4.289,0,0,0,27.911,20.173Zm14.456-8.99H37.45V7.593H51.792v3.591H46.9V23.6H42.367ZM66.339,20.1v3.5H53.484V7.593H66.042v3.5H57.968v2.7h7.114v3.385H57.968V20.1Zm4.369,3.706a2.56,2.56,0,0,1-1.853-.732,2.471,2.471,0,0,1-.755-1.853,2.444,2.444,0,0,1,.743-1.853,2.82,2.82,0,0,1,3.74,0,2.464,2.464,0,0,1,.732,1.853,2.491,2.491,0,0,1-.743,1.853A2.549,2.549,0,0,1,70.708,23.81Z"
+            transform="translate(-1.4 21)"
+          />
+        </StyledLogo>
+        <StyledForm>
           <StyledHeading as="h2">
             {authType === 'login' ? 'Sign in' : 'Sign up'}
           </StyledHeading>
@@ -235,7 +278,21 @@ const AuthTemplate = ({ authType, authenticate, userID, isLoading }) => {
               </Form>
             )}
           </Formik>
-        </StyledHeader>
+        </StyledForm>
+        <Header>
+          <div>
+            <HeaderText as="h1">Keep your stuff in one place!</HeaderText>
+            <StyledParagraph>
+              Save your favorite notes, articles or even twitters!
+            </StyledParagraph>
+          </div>
+          <HeaderImage />
+          <IconsWrapper>
+            <Icon size="60%" icon={penIcon} />
+            <Icon size="48%" icon={BulbIcon} />
+            <Icon size="68%" icon={twitterIcon} />
+          </IconsWrapper>
+        </Header>
       </StyledContentWrapper>
     </StyledWrapper>
   );
