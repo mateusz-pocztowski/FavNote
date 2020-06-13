@@ -87,8 +87,14 @@ class GridTemplate extends Component {
     super(props);
     this.state = {
       isPanelVisible: false,
+      items: [],
     };
   }
+
+  componentDidMount = () => {
+    const { children } = this.props;
+    this.setState({ items: children });
+  };
 
   handlePanelVisibility = () => {
     this.setState(prevState => ({
@@ -96,9 +102,19 @@ class GridTemplate extends Component {
     }));
   };
 
+  handleSearch = e => {
+    const { children } = this.props;
+    const filteredItems = children.filter(item =>
+      item.props.title.toLowerCase().includes(e.target.value.toLowerCase()),
+    );
+    this.setState({
+      items: filteredItems,
+    });
+  };
+
   render() {
-    const { pageContext, children } = this.props;
-    const { isPanelVisible } = this.state;
+    const { pageContext } = this.props;
+    const { isPanelVisible, items } = this.state;
     return (
       <UserPageTemplate>
         <Wrapper>
@@ -113,13 +129,14 @@ class GridTemplate extends Component {
                 icon="search"
                 placeholder="Search"
                 activecolor={pageContext}
+                onChange={this.handleSearch}
               />
               <StyledHeading big as="h1">
                 {pageContext}
               </StyledHeading>
-              {children.length !== 0 && (
+              {items.length !== 0 && (
                 <StyledParagraph>
-                  {children.length} {pageContext}
+                  {items.length} {pageContext}
                 </StyledParagraph>
               )}
             </PageHeader>
@@ -130,7 +147,7 @@ class GridTemplate extends Component {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {children.length === 0 ? (
+            {items.length === 0 ? (
               <EmptyStateWrapper>
                 <EmptyState />
                 <StyledEmptyHeading>
@@ -141,7 +158,7 @@ class GridTemplate extends Component {
                 </Paragraph>
               </EmptyStateWrapper>
             ) : (
-              <GridWrapper>{children}</GridWrapper>
+              <GridWrapper>{items}</GridWrapper>
             )}
           </motion.div>
           <StyledAddButton
@@ -162,19 +179,11 @@ class GridTemplate extends Component {
 
 GridTemplate.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
-  message: PropTypes.shape({
-    status: PropTypes.number,
-    content: PropTypes.string,
-  }),
   children: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 GridTemplate.defaultProps = {
   pageContext: 'notes',
-  message: {
-    status: null,
-    content: null,
-  },
 };
 
 export default withContext(GridTemplate);
