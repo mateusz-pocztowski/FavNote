@@ -8,6 +8,7 @@ export const theme = {
   gray100: 'rgb(245, 245, 245)',
   gray200: 'rgb(230, 230, 230)',
   gray300: 'rgb(204, 204, 204)',
+  gray400: 'rgb(190, 190, 190)',
   dark: 'rgb(38, 38, 38)',
   bold: 600,
   medium: 500,

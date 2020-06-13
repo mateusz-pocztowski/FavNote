@@ -109,7 +109,11 @@ class GridTemplate extends Component {
             exit={{ opacity: 0, y: '-10vh' }}
           >
             <PageHeader>
-              <Input search placeholder="Search" activecolor={pageContext} />
+              <Input
+                icon="search"
+                placeholder="Search"
+                activecolor={pageContext}
+              />
               <StyledHeading big as="h1">
                 {pageContext}
               </StyledHeading>

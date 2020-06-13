@@ -83,8 +83,13 @@ export const authenticate = (
     dispatch(fetchItems('twitters'));
     dispatch(fetchItems('articles'));
   } catch (err) {
-    console.log(err.response);
-    dispatch({ type: AUTH_FAILURE, payload: 400 });
+    const {
+      data: { message: data },
+      status,
+    } = err.response;
+    const [{ messages }] = data;
+    const [{ id }] = messages;
+    dispatch({ type: AUTH_FAILURE, payload: { status, id } });
   }
 };
 
@@ -111,8 +116,6 @@ export const removeItem = (itemType, id) => (dispatch, getState) => {
     dispatch({
       type: REMOVE_ITEM_SUCCESS,
       payload: {
-        status: 200,
-        content: `Selected item has been successfully removed!`,
         itemType,
         id,
       },
@@ -129,7 +132,7 @@ export const addItem = (itemType, itemContent) => async (
 ) => {
   dispatch({ type: ADD_ITEM_REQUEST });
   try {
-    const { data, status } = await axios.post(
+    const { data } = await axios.post(
       `http://localhost:1337/${itemType}?user.id=${getState().userID}`,
       {
         ...itemContent,
@@ -142,8 +145,6 @@ export const addItem = (itemType, itemContent) => async (
     dispatch({
       type: ADD_ITEM_SUCCESS,
       payload: {
-        status,
-        content: `New item has been successfully added!`,
         itemType,
         data,
       },

@@ -19,9 +19,9 @@ export const initialState = {
   userID: null,
   isLoading: false,
   isSubmitting: false,
-  message: {
+  error: {
     status: null,
-    content: null,
+    errorID: null,
   },
 };
 
@@ -36,9 +36,9 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: false,
-        message: {
+        error: {
           status: action.payload.status,
-          content: action.payload.content,
+          errorID: action.payload.id,
         },
       };
     case AUTH_SUCCESS:
@@ -55,9 +55,9 @@ const rootReducer = (state = initialState, action) => {
         userID: null,
         isLoading: true,
         isSubmitting: false,
-        message: {
+        error: {
           status: null,
-          content: null,
+          errorID: null,
         },
       };
     case HIDE_LOADER:
@@ -83,10 +83,6 @@ const rootReducer = (state = initialState, action) => {
     case ADD_ITEM_SUCCESS:
       return {
         ...state,
-        message: {
-          status: action.payload.status,
-          content: action.payload.content,
-        },
         [action.payload.itemType]: [
           ...state[action.payload.itemType],
           action.payload.data,
@@ -96,11 +92,7 @@ const rootReducer = (state = initialState, action) => {
     case ADD_ITEM_FAILURE:
       return {
         ...state,
-        message: {
-          status: action.payload.status,
-          content: action.payload.content,
-          isSubmitting: false,
-        },
+        isSubmitting: false,
       };
     case REMOVE_ITEM_REQUEST:
       return {
@@ -114,17 +106,13 @@ const rootReducer = (state = initialState, action) => {
             item => item.id !== action.payload.id,
           ),
         ],
-        message: {
-          status: action.payload.status,
-          content: action.payload.content,
-        },
       };
     case REMOVE_ITEM_FAILURE:
       return {
         ...state,
-        message: {
+        error: {
           status: action.payload.status,
-          content: action.payload.content,
+          errorID: action.payload.id,
         },
       };
     default:

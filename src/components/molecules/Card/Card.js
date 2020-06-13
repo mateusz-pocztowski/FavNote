@@ -6,6 +6,7 @@ import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import Button from 'components/atoms/Button/Button';
 import linkIcon from 'assets/icons/link.svg';
+import defaultUserImg from 'assets/images/defaultUser.png';
 import { connect } from 'react-redux';
 import { removeItem as removeItemAction } from 'actions';
 import withContext from 'hoc/withContext';
@@ -68,7 +69,8 @@ const StyledHeading = styled(Heading)`
 const Avatar = styled.a`
   display: block;
   position: absolute;
-  background: url(${({ img }) => img}) no-repeat;
+  background-image: url(${({ img }) => img}), url(${defaultUserImg});
+  background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
   top: 25px;

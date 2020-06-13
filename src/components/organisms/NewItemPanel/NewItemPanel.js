@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Heading from 'components/atoms/Heading/Heading';
 import Input from 'components/atoms/Input/Input';
 import SubmitButton from 'components/molecules/SubmitButton/SubmitButton';
@@ -27,25 +27,52 @@ const StyledWrapper = styled.aside`
     isVisible ? 'translateX(0%)' : 'translateX(100%)'};
 `;
 
+const InputItem = styled.div`
+  width: 100%;
+  margin: 50px 0;
+  position: relative;
+  cursor: auto;
+`;
+
+const InputArea = styled(InputItem)`
+  margin-bottom: 60px;
+  height: 25vh;
+`;
+
+const Label = styled.label`
+  position: absolute;
+  top: -28px;
+  left: 5px;
+  transition: 0.2s ease-out all;
+  color: ${({ theme }) => theme.gray400};
+  cursor: auto;
+  font-size: ${({ theme }) => theme.fontSize.xsm};
+  ${({ isInvalid }) =>
+    isInvalid &&
+    css`
+      color: hsl(4, 82%, 56%);
+    `}
+`;
+
 const StyledInput = styled(Input)`
   width: 100%;
-  border: ${props => props.border || '1px solid #ccc'};
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: ${({ border, theme }) => border || theme.gray300};
+  background-color: ${({ theme }) => theme.gray100};
+  ${({ border }) =>
+    !border &&
+    css`
+      &:focus + ${Label} {
+        color: ${({ theme }) => theme.dark};
+      }
+    `}
 `;
 
 const StyledTextarea = styled(StyledInput)`
-  margin: 0 0 60px;
-  height: 30vh;
-  border-radius: 20px;
-  padding-top: 30px;
+  height: 100%;
   resize: none;
   white-space: pre-line;
-`;
-
-const StyledErrorMsg = styled.p`
-  margin: 15px 0 5px;
-  color: hsl(4, 82%, 56%);
-  padding-left: 15px;
-  font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
 const NewItemPanel = ({
@@ -108,62 +135,84 @@ const NewItemPanel = ({
         isSubmitting,
       }) => (
         <Form onSubmit={handleSubmit}>
-          <StyledErrorMsg>
-            {errors.title && touched.title && errors.title}
-          </StyledErrorMsg>
-          <StyledInput
-            border={
-              touched.title && errors.title && `1px solid hsl(4, 82%, 56%)`
-            }
-            name="title"
-            type="text"
-            placeholder={pageContext === 'twitters' ? 'Name' : 'Title'}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.title}
-            activecolor={pageContext}
-          />
-          <StyledErrorMsg>
-            {errors.twitterName && touched.twitterName && errors.twitterName}
-            {errors.articleUrl && touched.articleUrl && errors.articleUrl}
-          </StyledErrorMsg>
-          {pageContext !== 'notes' && (
+          <InputItem>
             <StyledInput
-              name={pageContext === 'twitters' ? 'twitterName' : 'articleUrl'}
               type="text"
-              placeholder={
-                pageContext === 'twitters' ? 'Twitter user name' : 'Link'
-              }
-              activecolor={pageContext}
+              id="title"
+              name="title"
+              placeholder=" "
               onChange={handleChange}
               onBlur={handleBlur}
-              border={
-                (touched.twitterName || touched.articleUrl) &&
-                (errors.twitterName || errors.articleUrl) &&
-                '1px solid hsl(4, 82%, 56%)'
-              }
-              value={
-                pageContext === 'twitters'
-                  ? values.twitterName
-                  : values.articleUrl
-              }
+              value={values.title}
+              activecolor={pageContext}
+              border={touched.title && errors.title && 'hsl(4, 82%, 56%)'}
             />
+            <Label htmlFor="title" isInvalid={touched.title && errors.title}>
+              {(errors.title && touched.title && errors.title) || 'Title'}
+            </Label>
+          </InputItem>
+          {pageContext !== 'notes' && (
+            <InputItem>
+              <StyledInput
+                type="text"
+                id={pageContext === 'twitters' ? 'twitterName' : 'articleUrl'}
+                name={pageContext === 'twitters' ? 'twitterName' : 'articleUrl'}
+                placeholder=" "
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={
+                  pageContext === 'twitters'
+                    ? values.twitterName
+                    : values.articleUrl
+                }
+                activecolor={pageContext}
+                border={
+                  (touched.twitterName || touched.articleUrl) &&
+                  (errors.twitterName || errors.articleUrl) &&
+                  'hsl(4, 82%, 56%)'
+                }
+              />
+              <Label
+                htmlFor={
+                  pageContext === 'twitters' ? 'twitterName' : 'articleUrl'
+                }
+                isInvalid={
+                  (touched.twitterName && errors.twitterName) ||
+                  (touched.articleUrl && errors.articleUrl)
+                }
+              >
+                {(errors.twitterName &&
+                  touched.twitterName &&
+                  errors.twitterName) ||
+                  (pageContext === 'twitters' && 'Twitter Name')}
+                {(errors.articleUrl &&
+                  touched.articleUrl &&
+                  errors.articleUrl) ||
+                  (pageContext === 'articles' && 'Link')}
+              </Label>
+            </InputItem>
           )}
-          <StyledErrorMsg>
-            {errors.content && touched.content && errors.content}
-          </StyledErrorMsg>
-          <StyledTextarea
-            as="textarea"
-            name="content"
-            placeholder="Description"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            activecolor={pageContext}
-            value={values.content}
-            border={
-              touched.content && errors.content && '1px solid hsl(4, 82%, 56%)'
-            }
-          />
+          <InputArea>
+            <StyledTextarea
+              as="textarea"
+              type="text"
+              id="content"
+              name="content"
+              placeholder=" "
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.content}
+              activecolor={pageContext}
+              border={touched.content && errors.content && 'hsl(4, 82%, 56%)'}
+            />
+            <Label
+              htmlFor="content"
+              isInvalid={touched.content && errors.content}
+            >
+              {(errors.content && touched.content && errors.content) ||
+                'Description'}
+            </Label>
+          </InputArea>
           <SubmitButton disabled={isSubmitting} activecolor={pageContext}>
             Add Item
           </SubmitButton>
