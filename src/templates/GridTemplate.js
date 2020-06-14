@@ -10,7 +10,7 @@ import plusIcon from 'assets/icons/plus.svg';
 import withContext from 'hoc/withContext';
 import NewItemPanel from 'components/organisms/NewItemPanel/NewItemPanel';
 import emptyStateImg from 'assets/images/emptyState.png';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Wrapper = styled.div`
   position: relative;
@@ -88,12 +88,34 @@ class GridTemplate extends Component {
     this.state = {
       isPanelVisible: false,
       items: [],
+      search: '',
     };
   }
 
   componentDidMount = () => {
+    this.setState({ search: '' });
+    this.showItems();
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    this.showItems(prevProps, prevState);
+  };
+
+  showItems = (prevProps = '', prevState) => {
     const { children } = this.props;
-    this.setState({ items: children });
+    const { search } = this.state;
+
+    if (prevProps === this.props && prevState.search === search) return;
+    this.setState({
+      items: children.filter(item =>
+        item.props.keywords.toLowerCase().includes(search),
+      ),
+    });
+  };
+
+  handleSearch = e => {
+    if (e.target.value.length >= 40) return;
+    this.setState({ search: e.target.value.toLowerCase() });
   };
 
   handlePanelVisibility = () => {
@@ -102,19 +124,9 @@ class GridTemplate extends Component {
     }));
   };
 
-  handleSearch = e => {
-    const { children } = this.props;
-    const filteredItems = children.filter(item =>
-      item.props.title.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    this.setState({
-      items: filteredItems,
-    });
-  };
-
   render() {
     const { pageContext } = this.props;
-    const { isPanelVisible, items } = this.state;
+    const { isPanelVisible, items, search } = this.state;
     return (
       <UserPageTemplate>
         <Wrapper>
@@ -129,6 +141,7 @@ class GridTemplate extends Component {
                 icon="search"
                 placeholder="Search"
                 activecolor={pageContext}
+                value={search}
                 onChange={this.handleSearch}
               />
               <StyledHeading big as="h1">
@@ -154,11 +167,15 @@ class GridTemplate extends Component {
                   It&apos;s empty in here..
                 </StyledEmptyHeading>
                 <Paragraph>
-                  Go and add some {pageContext}! They won&apos;t go anywhere.
+                  {search
+                    ? `There is no ${pageContext} with "${search}" keyword.`
+                    : `Go and add some ${pageContext}! They won't go anywhere.`}
                 </Paragraph>
               </EmptyStateWrapper>
             ) : (
-              <GridWrapper>{items}</GridWrapper>
+              <GridWrapper>
+                <AnimatePresence>{items}</AnimatePresence>
+              </GridWrapper>
             )}
           </motion.div>
           <StyledAddButton

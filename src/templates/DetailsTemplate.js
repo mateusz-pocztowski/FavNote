@@ -10,6 +10,7 @@ import { routes } from 'routes';
 import withContext from 'hoc/withContext';
 import Moment from 'react-moment';
 import { motion } from 'framer-motion';
+import defaultImg from 'assets/images/default.png';
 
 const Wrapper = styled(motion.div)`
   padding: 25px 0 0 70px;
@@ -63,7 +64,8 @@ const StyledAvatar = styled.a`
   display: block;
   width: 100px;
   height: 100px;
-  background: url(${({ img }) => img}) no-repeat;
+  background-image: url(${({ img }) => img}), url(${defaultImg});
+  background-repeat: no-repeat;
   background-color: white;
   background-position: center;
   background-size: 100%;
