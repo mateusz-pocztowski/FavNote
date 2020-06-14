@@ -140,7 +140,6 @@ const NewItemPanel = ({
               type="text"
               id="title"
               name="title"
-              placeholder=" "
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.title}
@@ -157,7 +156,6 @@ const NewItemPanel = ({
                 type="text"
                 id={pageContext === 'twitters' ? 'twitterName' : 'articleUrl'}
                 name={pageContext === 'twitters' ? 'twitterName' : 'articleUrl'}
-                placeholder=" "
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={
@@ -198,7 +196,6 @@ const NewItemPanel = ({
               type="text"
               id="content"
               name="content"
-              placeholder=" "
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.content}

@@ -83,13 +83,23 @@ export const authenticate = (
     dispatch(fetchItems('twitters'));
     dispatch(fetchItems('articles'));
   } catch (err) {
-    const {
-      data: { message: data },
-      status,
-    } = err.response;
-    const [{ messages }] = data;
-    const [{ id }] = messages;
-    dispatch({ type: AUTH_FAILURE, payload: { status, id } });
+    const { status, statusText } = err.response;
+    if (status === 404)
+      dispatch({
+        type: AUTH_FAILURE,
+        payload: { status, id: statusText },
+      });
+    else {
+      const {
+        data: { message: data },
+      } = err.response;
+      const [{ messages }] = data;
+      const [{ id }] = messages;
+      dispatch({
+        type: AUTH_FAILURE,
+        payload: { status, id },
+      });
+    }
   }
 };
 

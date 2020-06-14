@@ -168,7 +168,7 @@ class GridTemplate extends Component {
                 </StyledEmptyHeading>
                 <Paragraph>
                   {search
-                    ? `There is no ${pageContext} with "${search}" keyword.`
+                    ? `There are no ${pageContext} matching "${search}".`
                     : `Go and add some ${pageContext}! They won't go anywhere.`}
                 </Paragraph>
               </EmptyStateWrapper>

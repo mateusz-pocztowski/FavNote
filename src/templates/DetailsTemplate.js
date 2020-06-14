@@ -49,6 +49,7 @@ const StyledDate = styled(Paragraph)`
 const StyledContent = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.light};
   line-height: 1.25;
+  white-space: pre-wrap;
 `;
 
 const StyledOptionsWrapper = styled.div`

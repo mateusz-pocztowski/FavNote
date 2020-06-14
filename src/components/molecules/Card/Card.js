@@ -92,6 +92,15 @@ const LinkButton = styled.a`
   background-position: center;
 `;
 
+const StyledContent = styled(Paragraph)`
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+`;
+
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -115,7 +124,6 @@ class Card extends Component {
     } = this.props;
     const { redirect } = this.state;
     if (redirect) return <Redirect to={`${pageContext}/${id}`} />;
-
     return (
       <Wrapper>
         <InnerWrapper activecolor={pageContext} flex="row">
@@ -137,7 +145,7 @@ class Card extends Component {
           )}
         </InnerWrapper>
         <InnerWrapper flex="column">
-          <Paragraph>{content}</Paragraph>
+          <StyledContent>{content}</StyledContent>
           <ItemsWrapper flex>
             <Button
               onClick={this.handleClick}
