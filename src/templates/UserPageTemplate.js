@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Sidebar from 'components/organisms/Sidebar/Sidebar';
 import ConfirmationModal from 'components/molecules/ConfirmationModal/ConfirmationModal';
+import UserCard from 'components/molecules/UserCard/UserCard';
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -13,6 +14,7 @@ const StyledWrapper = styled.div`
 const UserPageTemplate = ({ children }) => {
   return (
     <StyledWrapper>
+      <UserCard />
       <Sidebar />
       <ConfirmationModal />
       {children}

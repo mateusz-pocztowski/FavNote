@@ -18,17 +18,6 @@ const Root = () => (
       <MainTemplate>
         <AnimatePresence>
           <Switch>
-            <Route
-              exact
-              path={routes.home}
-              render={() =>
-                store.getState().userJWT ? (
-                  <Redirect to={routes.notes} />
-                ) : (
-                  <Redirect to={routes.login} />
-                )
-              }
-            />
             <Route exact path={routes.login} component={AuthView} />
             <Route exact path={routes.register} component={AuthView} />
             <PrivateRoute
@@ -63,6 +52,15 @@ const Root = () => (
               path={routes.article}
               component={DetailsView}
               token={store.getState().userJWT}
+            />
+            <Route
+              render={() =>
+                store.getState().userJWT ? (
+                  <Redirect to={routes.notes} />
+                ) : (
+                  <Redirect to={routes.login} />
+                )
+              }
             />
           </Switch>
         </AnimatePresence>

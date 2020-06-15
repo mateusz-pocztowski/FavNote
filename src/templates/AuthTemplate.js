@@ -160,7 +160,7 @@ const Label = styled.label`
   position: absolute;
   top: 0;
   left: 0;
-  padding: 15px 25px 15px 35px;
+  padding: 15px 0px 15px 35px;
   transition: 0.2s ease-out all;
   color: ${({ theme }) => theme.gray400};
   cursor: auto;
@@ -225,7 +225,7 @@ class AuthTemplate extends Component {
         this.setState({ serverError: '' });
         break;
       case 'Auth.form.error.invalid':
-        this.setState({ serverError: 'Invalid username or email' });
+        this.setState({ serverError: 'Incorrect username or password' });
         break;
       case 'Auth.form.error.username.taken':
         this.setState({ serverError: 'Username is already taken' });
@@ -267,6 +267,10 @@ class AuthTemplate extends Component {
                 const errors = {};
                 if (!email && authType === 'register')
                   errors.email = 'E-mail is required';
+                if (authType === 'register' && username.length < 5)
+                  errors.username = 'Username must be at least 5 characters';
+                if (authType === 'register' && username.length > 18)
+                  errors.username = 'Username must be up to 18 characters';
                 if (!username) errors.username = 'Username is required';
                 else if (
                   authType === 'register' &&
@@ -274,6 +278,8 @@ class AuthTemplate extends Component {
                 ) {
                   errors.email = 'Invalid email address';
                 }
+                if (authType === 'register' && password.length < 6)
+                  errors.password = 'Password must be at least 6 characters';
                 if (!password) errors.password = 'Password is required';
                 return errors;
               }}

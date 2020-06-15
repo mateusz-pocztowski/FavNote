@@ -17,6 +17,7 @@ import {
 
 export const initialState = {
   userJWT: null,
+  userName: null,
   userID: null,
   isLoading: false,
   isSubmitting: false,
@@ -50,6 +51,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         userJWT: action.payload.data.jwt,
+        userName: action.payload.data.user.username,
         userID: action.payload.data.user.id,
         isSubmitting: false,
         isLoading: true,
