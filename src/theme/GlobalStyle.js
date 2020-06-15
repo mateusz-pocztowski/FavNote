@@ -1,16 +1,23 @@
 import { createGlobalStyle } from 'styled-components';
+import { normalize } from 'styled-normalize';
 
 const GlobalStyle = createGlobalStyle`
 
-  *, *::before, *::after, *::-moz-focus-inner {
+  ${normalize}
+
+  *, *::before, *::after {
     box-sizing: border-box;
     border: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
-    outline: 0 !important;
+    outline: 0;
   }
 
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+  }
+  
   html {
     font-size: 62.5%;
   }

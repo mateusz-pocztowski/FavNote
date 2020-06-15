@@ -63,7 +63,6 @@ const StyledForm = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 30px 50px;
   background-color: #ffffff;
   box-shadow: 0 0 30px -10px hsla(0, 0%, 0%, 0.3);
   border-radius: 10px;

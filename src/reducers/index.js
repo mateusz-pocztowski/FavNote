@@ -57,7 +57,21 @@ const rootReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case LOGOUT:
-      return initialState;
+      return {
+        userJWT: null,
+        userName: null,
+        userID: null,
+        isLoading: true,
+        isSubmitting: false,
+        error: {
+          status: null,
+          errorID: null,
+        },
+        modal: {
+          itemType: null,
+          itemID: null,
+        },
+      };
     case HIDE_LOADER:
       return {
         ...state,

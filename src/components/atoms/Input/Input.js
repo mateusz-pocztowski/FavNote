@@ -3,6 +3,7 @@ import searchIcon from 'assets/icons/magnifier.svg';
 
 const Input = styled.input`
   padding: 15px 30px;
+  border: none;
   font-size: ${({ theme }) => theme.fontSize.s};
   font-weight: ${({ theme }) => theme.regular};
   font-family: 'Montserrat', sans-serif;
@@ -18,7 +19,7 @@ const Input = styled.input`
       background-size: 15px;
       background-position: 8px 50%;
       background-repeat: no-repeat;
-      padding: 15px 25px 15px 35px;
+      padding: 15px 35px;
     `}
   ${({ icon }) =>
     icon === 'search' &&

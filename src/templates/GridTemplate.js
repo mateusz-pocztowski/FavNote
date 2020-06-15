@@ -107,9 +107,9 @@ class GridTemplate extends Component {
 
     if (prevProps === this.props && prevState.search === search) return;
     this.setState({
-      items: children.filter(item =>
-        item.props.keywords.toLowerCase().includes(search),
-      ),
+      items: children
+        .filter(item => item.props.keywords.toLowerCase().includes(search))
+        .reverse(),
     });
   };
 

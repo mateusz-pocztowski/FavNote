@@ -12,7 +12,7 @@ const ArticlesView = ({ articles }) => (
         key={id}
         keywords={title + content}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { duration: 0.35 } }}
+        animate={{ opacity: 1, transition: { duration: 0.7 } }}
         exit={{ opacity: 0, transition: { duration: 0.35 } }}
       >
         <Card
