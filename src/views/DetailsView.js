@@ -4,13 +4,23 @@ import withContext from 'hoc/withContext';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const DetailsView = ({ activeItem }) => (
+const DetailsView = ({
+  activeItem: {
+    id,
+    title,
+    content,
+    articleUrl,
+    twitterName,
+    created_at: created,
+  },
+}) => (
   <DetailsTemplate
-    title={activeItem.title}
-    content={activeItem.content}
-    articleUrl={activeItem.articleUrl}
-    twitterName={activeItem.twitterName}
-    created={activeItem.created_at}
+    itemID={id}
+    title={title}
+    content={content}
+    articleUrl={articleUrl}
+    twitterName={twitterName}
+    created={created}
   />
 );
 
@@ -21,6 +31,7 @@ DetailsView.propTypes = {
     }),
   }).isRequired,
   activeItem: PropTypes.shape({
+    id: PropTypes.string,
     title: PropTypes.string,
     content: PropTypes.string,
     articleUrl: PropTypes.string,
@@ -31,6 +42,7 @@ DetailsView.propTypes = {
 
 DetailsView.defaultProps = {
   activeItem: {
+    id: '',
     title: '',
     content: '',
     articleUrl: '',

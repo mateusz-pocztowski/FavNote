@@ -132,8 +132,11 @@ const StyledLink = styled(Button)`
   font-size: ${({ theme }) => theme.fontSize.xs};
   font-weight: ${({ theme }) => theme.bold};
   border: 2px solid ${({ theme }) => theme.notes};
+  border: 2px solid ${({ theme }) => theme.notes};
+  background-color: #ffffff;
   cursor: pointer;
   &:hover {
+    background-color: rgba(255, 240, 173, 0.1);
     border-color: ${({ theme }) => theme.notes100};
   }
 `;

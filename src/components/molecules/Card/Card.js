@@ -8,7 +8,7 @@ import Button from 'components/atoms/Button/Button';
 import linkIcon from 'assets/icons/link.svg';
 import defaultImg from 'assets/images/default.png';
 import { connect } from 'react-redux';
-import { removeItem as removeItemAction } from 'actions';
+import { openModal as openModalAction } from 'actions';
 import withContext from 'hoc/withContext';
 import Moment from 'react-moment';
 
@@ -120,7 +120,7 @@ class Card extends Component {
       articleUrl,
       content,
       created,
-      removeItem,
+      openModal,
     } = this.props;
     const { redirect } = this.state;
     if (redirect) return <Redirect to={`${pageContext}/${id}`} />;
@@ -154,7 +154,7 @@ class Card extends Component {
             >
               Open
             </Button>
-            <Button onClick={() => removeItem(pageContext, id)} secondary>
+            <Button onClick={() => openModal(pageContext, id)} secondary>
               Remove
             </Button>
           </ItemsWrapper>
@@ -172,7 +172,7 @@ Card.propTypes = {
   content: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  removeItem: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
@@ -182,7 +182,7 @@ Card.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+  openModal: (itemType, itemID) => dispatch(openModalAction(itemType, itemID)),
 });
 
 export default connect(null, mapDispatchToProps)(withContext(Card));

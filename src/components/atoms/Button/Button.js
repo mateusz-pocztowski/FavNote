@@ -7,7 +7,8 @@ const Button = styled.button`
   color: black;
   text-decoration: none;
   padding: 0;
-  background-color: ${({ theme, activecolor }) => theme[activecolor]};
+  background-color: ${({ theme, activecolor }) =>
+    theme[activecolor] || theme.gray200};
   width: 220px;
   height: 47px;
   border: none;
@@ -19,7 +20,8 @@ const Button = styled.button`
   transition: 0.2s;
   cursor: pointer;
   &:hover {
-    background-color: ${({ theme, activecolor }) => theme[`${activecolor}100`]};
+    background-color: ${({ theme, activecolor }) =>
+      theme[`${activecolor}100`] || theme.gray300};
   }
   ${({ secondary }) =>
     secondary &&

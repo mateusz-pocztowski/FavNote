@@ -5,12 +5,14 @@ import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import Button from 'components/atoms/Button/Button';
 import PropTypes from 'prop-types';
 import UserPageTemplate from 'templates/UserPageTemplate';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { routes } from 'routes';
 import withContext from 'hoc/withContext';
 import Moment from 'react-moment';
 import { motion } from 'framer-motion';
 import defaultImg from 'assets/images/default.png';
+import { openModal as openModalAction } from 'actions';
 
 const Wrapper = styled(motion.div)`
   padding: 25px 0 0 70px;
@@ -93,13 +95,16 @@ const StyledLink = styled(Paragraph)`
 `;
 
 const DetailsTemplate = ({
+  itemID,
   pageContext,
   title,
   content,
   articleUrl,
   twitterName,
   created,
+  openModal,
 }) => {
+  if (!itemID) return <Redirect to={routes[pageContext]} />;
   return (
     <UserPageTemplate>
       <Wrapper
@@ -144,7 +149,9 @@ const DetailsTemplate = ({
           <Button as={Link} to={routes[pageContext]} activecolor={pageContext}>
             Close / Save
           </Button>
-          <Button secondary>Remove</Button>
+          <Button onClick={() => openModal(pageContext, itemID)} secondary>
+            Remove
+          </Button>
         </StyledOptionsWrapper>
       </Wrapper>
     </UserPageTemplate>
@@ -153,6 +160,8 @@ const DetailsTemplate = ({
 
 DetailsTemplate.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  openModal: PropTypes.func.isRequired,
+  itemID: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
@@ -166,4 +175,8 @@ DetailsTemplate.defaultProps = {
   twitterName: null,
 };
 
-export default withContext(DetailsTemplate);
+const mapDispatchToProps = dispatch => ({
+  openModal: (itemType, itemID) => dispatch(openModalAction(itemType, itemID)),
+});
+
+export default connect(null, mapDispatchToProps)(withContext(DetailsTemplate));

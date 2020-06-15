@@ -16,6 +16,8 @@ export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const HIDE_LOADER = 'HIDE_LOADER';
 export const LOGOUT = 'LOGOUT';
 
@@ -101,6 +103,16 @@ export const authenticate = (
       });
     }
   }
+};
+
+export const openModal = (itemType, itemID) => {
+  return {
+    type: OPEN_MODAL,
+    payload: {
+      itemType,
+      itemID,
+    },
+  };
 };
 
 export const hideLoader = () => {

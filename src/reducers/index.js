@@ -9,6 +9,7 @@ import {
   ADD_ITEM_REQUEST,
   ADD_ITEM_SUCCESS,
   ADD_ITEM_FAILURE,
+  OPEN_MODAL,
   REMOVE_ITEM_REQUEST,
   REMOVE_ITEM_SUCCESS,
   REMOVE_ITEM_FAILURE,
@@ -22,6 +23,10 @@ export const initialState = {
   error: {
     status: null,
     errorID: null,
+  },
+  modal: {
+    itemType: null,
+    itemID: null,
   },
 };
 
@@ -50,16 +55,7 @@ const rootReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case LOGOUT:
-      return {
-        userJWT: null,
-        userID: null,
-        isLoading: true,
-        isSubmitting: false,
-        error: {
-          status: null,
-          errorID: null,
-        },
-      };
+      return initialState;
     case HIDE_LOADER:
       return {
         ...state,
@@ -93,6 +89,22 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: false,
+      };
+    case OPEN_MODAL:
+      return {
+        ...state,
+        modal: {
+          itemType: action.payload.itemType,
+          itemID: action.payload.itemID,
+        },
+      };
+    case 'CLOSE_MODAL':
+      return {
+        ...state,
+        modal: {
+          itemType: null,
+          itemID: null,
+        },
       };
     case REMOVE_ITEM_REQUEST:
       return {
