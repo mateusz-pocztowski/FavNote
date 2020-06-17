@@ -1,68 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# FavNote
 
-## Available Scripts
+FavNote is a react app, which allows you to save your favorite notes, twitter accounts, or articles.
 
-In the project directory, you can run:
+![rwd](https://user-images.githubusercontent.com/55945204/84949474-9adaf500-b0ed-11ea-892c-b28e4c834761.png)
 
-### `yarn start`
+## Demo
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To run the app, all you have to do is:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. Run the server by simply going to the page - https://favnotebackend.herokuapp.com/
+2. Go to the page to run FavNote https://fav-note-app.netlify.app/
 
-### `yarn test`
+That's all, enjoy and check the app out!
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies
 
-### `yarn build`
+Backend: (hosted by www.heroku.com)
+* Strapi v3.0.0-beta.20.3
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Frontend: (hosted by www.netlify.com)
+* React v16.13.1
+* React Redux
+* React Router
+* React Moment
+* Framer Motion
+* Styled Components
+* Storybook
+* Formik
+* Axios
+* Husky && lint-staged
+* Atomic design
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Login/Register to have your own account with your personal notes,
+* Browsing/Adding/Removing notes, articles and twitters to your account
+* Searching by keywords (title and content)
+* Specified validation for every type of note
+* Sign up/Sign in form validation (server side also)
+* Animations and page transitions with Framer Motion
+* Real time of added notes with React Moment
+* Responsive Web Design
 
-### `yarn eject`
+## Screenshots
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![snap5](https://user-images.githubusercontent.com/55945204/84949697-eb525280-b0ed-11ea-8eab-51da631c43de.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![snap1](https://user-images.githubusercontent.com/55945204/84949527-acbc9800-b0ed-11ea-971d-9dcab2801289.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![snap2](https://user-images.githubusercontent.com/55945204/84949575-c1992b80-b0ed-11ea-855c-b020368015a4.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![snap3](https://user-images.githubusercontent.com/55945204/84949605-cc53c080-b0ed-11ea-926c-7340fad09d99.png)
 
-## Learn More
+![snap4](https://user-images.githubusercontent.com/55945204/84949667-decdfa00-b0ed-11ea-8f66-dfe7f1f2ac53.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Credits and sources
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The app is based on a course by Adam Romański (www.helloroman.com) „Kurs React w Praktyce” (https://eduweb.pl/kursy/javascript/react-w-praktyce.html)
