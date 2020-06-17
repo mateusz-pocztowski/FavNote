@@ -20,8 +20,8 @@ Backend: (hosted by www.heroku.com)
 
 Frontend: (hosted by www.netlify.com)
 * React v16.13.1
-* React Redux
-* React Router
+* React Redux && local storage
+* React Router with private routes
 * React Moment
 * Framer Motion
 * Styled Components
