@@ -1,13 +1,27 @@
 /* eslint-disable no-underscore-dangle */
 import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer, { initialState } from 'reducers';
+import rootReducer from 'reducers';
 import thunk from 'redux-thunk';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistedState = localStorage.getItem('reduxState')
   ? JSON.parse(localStorage.getItem('reduxState'))
-  : { initialState };
+  : {
+      userJWT: null,
+      userName: null,
+      userID: null,
+      isLoading: true,
+      isSubmitting: false,
+      error: {
+        status: null,
+        errorID: null,
+      },
+      modal: {
+        itemType: null,
+        itemID: null,
+      },
+    };
 
 const store = createStore(
   rootReducer,

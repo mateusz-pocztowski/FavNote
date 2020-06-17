@@ -36,7 +36,9 @@ export const fetchItems = itemType => async (dispatch, getState) => {
   if (!getState().userJWT) return;
   try {
     const { data } = await axios.get(
-      `http://localhost:1337/${itemType}?user.id=${getState().userID}`,
+      `https://favnotebackend.herokuapp.com/${itemType}?user.id=${
+        getState().userID
+      }`,
       {
         headers: {
           Authorization: `Bearer ${getState().userJWT}`,
@@ -66,7 +68,7 @@ export const authenticate = (
   try {
     if (authType === 'register') {
       const payload = await axios.post(
-        `http://localhost:1337/auth/local/register`,
+        `https://favnotebackend.herokuapp.com/auth/local/register`,
         {
           email,
           username,
@@ -75,10 +77,13 @@ export const authenticate = (
       );
       dispatch({ type: AUTH_SUCCESS, payload });
     } else if (authType === 'login') {
-      const payload = await axios.post(`http://localhost:1337/auth/local`, {
-        identifier: username || email,
-        password,
-      });
+      const payload = await axios.post(
+        `https://favnotebackend.herokuapp.com/auth/local`,
+        {
+          identifier: username || email,
+          password,
+        },
+      );
       dispatch({ type: AUTH_SUCCESS, payload });
     }
     dispatch(fetchItems('notes'));
@@ -128,7 +133,9 @@ export const removeItem = (itemType, id) => (dispatch, getState) => {
   dispatch({ type: REMOVE_ITEM_REQUEST });
   try {
     axios.delete(
-      `http://localhost:1337/${itemType}/${id}?user.id=${getState().userID}`,
+      `https://favnotebackend.herokuapp.com/${itemType}/${id}?user.id=${
+        getState().userID
+      }`,
       {
         headers: {
           Authorization: `Bearer ${getState().userJWT}`,
@@ -155,7 +162,9 @@ export const addItem = (itemType, itemContent) => async (
   dispatch({ type: ADD_ITEM_REQUEST });
   try {
     const { data } = await axios.post(
-      `http://localhost:1337/${itemType}?user.id=${getState().userID}`,
+      `https://favnotebackend.herokuapp.com/${itemType}?user.id=${
+        getState().userID
+      }`,
       {
         ...itemContent,
         user: getState().userID,
