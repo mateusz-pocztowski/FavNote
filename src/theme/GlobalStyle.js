@@ -11,11 +11,11 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
-    outline: 0;
+    outline: 0 !important;
   }
 
-  input:focus, textarea:focus, select:focus {
-    outline: none;
+  button, button:focus, input:focus, textarea:focus, select:focus {
+    outline: 0 !important;
   }
   
   html {
