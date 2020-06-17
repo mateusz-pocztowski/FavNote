@@ -73,14 +73,19 @@ const Avatar = styled.a`
   background-position: center;
   background-size: 100%;
   background-color: white;
-  top: 25px;
+  top: 20px;
   right: 25px;
   z-index: 1;
   border-radius: 50%;
-  width: 86px;
-  height: 86px;
+  width: 80px;
+  height: 80px;
   border: 5px solid ${({ theme }) => theme.twitters};
   box-shadow: 0 10px 30px 0 hsla(0, 0%, 0%, 0.15);
+  ${({ theme }) => theme.mq.smallTablet} {
+    top: 15px;
+    width: 86px;
+    height: 86px;
+  }
 `;
 
 const LinkButton = styled.a`

@@ -7,8 +7,14 @@ import UserCard from 'components/molecules/UserCard/UserCard';
 
 const StyledWrapper = styled.div`
   position: relative;
-  padding-left: 130px;
-  overflow: hidden;
+
+  ${({ theme }) => theme.mq.smallTablet} {
+    padding-left: 90px;
+  }
+
+  ${({ theme }) => theme.mq.tablet} {
+    padding-left: 130px;
+  }
 `;
 
 const UserPageTemplate = ({ children }) => {

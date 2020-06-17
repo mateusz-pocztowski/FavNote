@@ -30,7 +30,6 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #ffe470;
-  overflow: hidden;
   &:before {
     content: '';
     width: 100%;
@@ -44,76 +43,102 @@ const StyledWrapper = styled.div`
 const StyledContentWrapper = styled.div`
   position: fixed;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 1150px;
-  height: 630px;
-  padding: 50px 50px 50px 65px;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
   box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.3);
   border-radius: 10px;
   background-color: #ffffff;
   background: url(${bgImage}) no-repeat;
   background-size: cover;
+  ${({ theme }) => theme.mq.desktop} {
+    height: auto;
+    padding: 50px;
+    justify-content: space-evenly;
+  }
 `;
 
 const StyledForm = styled.div`
-  flex-basis: 40%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
   box-shadow: 0 0 30px -10px hsla(0, 0%, 0%, 0.3);
-  border-radius: 10px;
+  min-height: 540px;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  ${({ theme }) => theme.mq.tablet} {
+    flex-basis: 55%;
+  }
+
+  ${({ theme }) => theme.mq.smallDesktop} {
+    flex-basis: 45%;
+  }
+
+  ${({ theme }) => theme.mq.desktop} {
+    border-radius: 10px;
+  }
 `;
 
 const Header = styled.div`
-  flex-basis: 60%;
+  display: none;
   height: 100%;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 40px;
+  margin: 0 auto;
+  ${({ theme }) => theme.mq.tablet} {
+    display: flex;
+  }
 `;
 
 const HeaderImage = styled.div`
-  width: 350px;
+  width: 100%;
+  max-width: 370px;
   height: 350px;
   background: url(${headerIcon}) no-repeat center;
   background-size: 100%;
 `;
 
-const HeaderText = styled(Heading)`
-  margin: 0;
-  font-weight: ${({ theme }) => theme.regular};
-  font-size: ${({ theme }) => theme.fontSize.lm};
-`;
-
-const IconsWrapper = styled.div`
-  position: absolute;
-  bottom: 50px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Icon = styled.div`
-  width: 50px;
-  height: 50px;
+const HeaderTitle = styled(Heading)`
   margin: 15px 0;
-  background: url(${({ icon }) => icon}) no-repeat center;
-  background-size: ${({ size }) => size};
-  background-color: ${({ theme }) => theme.gray100};
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  font-weight: ${({ theme }) => theme.regular};
+  font-size: ${({ theme }) => theme.fontSize.l};
+  ${({ theme }) => theme.mq.desktop} {
+    font-size: ${({ theme }) => theme.fontSize.lm};
+  }
 `;
 
 const StyledParagraph = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.regular};
   margin: 15px 0 30px;
+`;
+
+const IconsWrapper = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${({ theme }) => theme.mq.desktop} {
+    flex-direction: column;
+  }
+`;
+
+const Icon = styled.div`
+  width: 50px;
+  height: 50px;
+  margin: 15px;
+  background: url(${({ icon }) => icon}) no-repeat center;
+  background-size: ${({ size }) => size};
+  background-color: ${({ theme }) => theme.gray100};
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 `;
 
 const StyledHeading = styled(Heading)`
@@ -146,7 +171,10 @@ const StyledLogo = styled.svg`
   right: 20px;
   width: 60px;
   height: 60px;
-  fill: #fff;
+  fill: #111;
+  ${({ theme }) => theme.mq.desktop} {
+    fill: #fff;
+  }
 `;
 
 const InputItem = styled.div`
@@ -190,7 +218,8 @@ const StyledInput = styled(Input)`
 
 const StyledErrorMsg = styled.div`
   margin: 0 0 20px;
-  width: 90%;
+  width: 100%;
+  max-width: 300px;
   border: 1px solid hsl(4, 82%, 56%);
   background-color: hsla(4, 82%, 56%, 0.1);
   color: hsl(4, 82%, 56%);
@@ -381,7 +410,7 @@ class AuthTemplate extends Component {
                     </Label>
                   </InputItem>
                   <SubmitButton centered disabled={isSubmitting}>
-                    {authType === 'login' ? 'Log in' : 'Register'}
+                    {authType === 'login' ? 'Login' : 'Register'}
                   </SubmitButton>
                   <StyledLink
                     as={Link}
@@ -396,7 +425,7 @@ class AuthTemplate extends Component {
           </StyledForm>
           <Header>
             <div>
-              <HeaderText as="h1">Keep your stuff in one place!</HeaderText>
+              <HeaderTitle as="h1">Keep your stuff in one place!</HeaderTitle>
               <StyledParagraph>
                 Save your favorite notes, articles or even twitters!
               </StyledParagraph>

@@ -1,3 +1,11 @@
+const breakpoints = {
+  smallTablet: 576,
+  tablet: 768,
+  desktop: 1200,
+  smallDesktop: 996,
+  bigDesktop: 1600,
+};
+
 export const theme = {
   notes: 'rgb(255, 216, 41)',
   notes100: 'rgb(255, 232, 128)',
@@ -25,4 +33,8 @@ export const theme = {
     lm: '3rem',
     xl: '4rem',
   },
+  mq: Object.keys(breakpoints).reduce((acc, breakpoint) => {
+    acc[breakpoint] = `@media (min-width: ${breakpoints[breakpoint]}px)`;
+    return acc;
+  }, {}),
 };

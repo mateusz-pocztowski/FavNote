@@ -14,19 +14,27 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const Wrapper = styled.div`
   position: relative;
-  padding: 25px 150px 25px 70px;
-  overflow: hidden;
+  padding: 15px 15px 80px;
+
+  ${({ theme }) => theme.mq.smallTablet} {
+    padding: 25px 110px 25px 40px;
+  }
+
+  ${({ theme }) => theme.mq.tablet} {
+    padding: 25px 150px 25px 40px;
+  }
 `;
 
 const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 45px;
-  @media (min-width: 1100px) {
+
+  ${({ theme }) => theme.mq.desktop} {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: 1500px) {
+  ${({ theme }) => theme.mq.bigDesktop} {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 85px;
   }
@@ -47,18 +55,32 @@ const StyledParagraph = styled(Paragraph)`
 `;
 
 const StyledAddButton = styled(ButtonIcon)`
+  width: 55px;
+  height: 55px;
   position: fixed;
-  bottom: 40px;
-  right: 40px;
   z-index: 11;
+  bottom: 5px;
+  right: 10px;
   background-size: 35%;
-  background-color: ${({ theme, activecolor }) => theme[activecolor]};
   border-radius: 50%;
+  background-color: ${({ theme, activecolor }) => theme[activecolor]};
   transform: ${({ isPanelVisible }) =>
     isPanelVisible ? 'rotate(45deg)' : 'rotate(0)'};
   &:hover {
     background-color: ${({ theme, activecolor }) => theme[`${activecolor}100`]};
     opacity: 0.8;
+  }
+  ${({ theme }) => theme.mq.smallTablet} {
+    bottom: 20px;
+    right: 20px;
+    width: 62px;
+    height: 62px;
+  }
+  ${({ theme }) => theme.mq.tablet} {
+    width: 67px;
+    height: 67px;
+    bottom: 40px;
+    right: 40px;
   }
 `;
 
@@ -69,11 +91,15 @@ const EmptyStateWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   opacity: 0.7;
+  text-align: center;
+  padding: 0 20px;
 `;
 
 const EmptyState = styled.div`
-  width: 400px;
-  height: 350px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+  height: 270px;
   background: url(${emptyStateImg}) no-repeat center;
   background-size: 100%;
 `;

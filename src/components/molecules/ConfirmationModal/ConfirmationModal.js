@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { removeItem as removeItemAction } from 'actions';
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 95%;
   position: fixed;
   top: 50%;
   left: 50%;

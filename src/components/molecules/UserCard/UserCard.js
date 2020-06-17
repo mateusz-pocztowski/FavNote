@@ -6,15 +6,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
   padding: 10px 20px 10px 30px;
-  display: flex;
   justify-content: flex-end;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.gray200};
   border-radius: 0 0 0 14px;
+  ${({ theme }) => theme.mq.tablet} {
+    display: flex;
+  }
 `;
 
 const Avatar = styled.div`

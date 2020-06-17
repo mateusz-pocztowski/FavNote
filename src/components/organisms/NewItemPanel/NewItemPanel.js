@@ -17,14 +17,18 @@ const StyledWrapper = styled.aside`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 680px;
-  padding: 100px 90px;
+  width: 100%;
+  max-width: 680px;
+  padding: 20px;
   background-color: #ffffff;
   border-left: 10px solid ${({ theme, activecolor }) => theme[activecolor]};
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
   transition: 0.35s;
   transform: ${({ isVisible }) =>
     isVisible ? 'translateX(0%)' : 'translateX(100%)'};
+  ${({ theme }) => theme.mq.smallTablet} {
+    padding: 100px 90px;
+  }
 `;
 
 const InputItem = styled.div`
@@ -102,6 +106,7 @@ const NewItemPanel = ({
           }
         };
 
+        if (title.length > 80) errors.title = 'Title is too long';
         if (!title) errors.title = 'Title is required';
         if (!content) errors.content = 'Description is required';
         if (!/^\S*$/.test(twitterName) && pageContext === 'twitters')

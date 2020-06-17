@@ -15,8 +15,11 @@ import defaultImg from 'assets/images/default.png';
 import { openModal as openModalAction } from 'actions';
 
 const Wrapper = styled(motion.div)`
-  padding: 25px 0 0 70px;
+  padding: 20px 25px 70px;
   max-width: 650px;
+  ${({ theme }) => theme.mq.tablet} {
+    padding: 25px 0 0 70px;
+  }
 `;
 
 const PageHeader = styled.div`
@@ -65,8 +68,8 @@ const StyledOptionsWrapper = styled.div`
 
 const StyledAvatar = styled.a`
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-image: url(${({ img }) => img}), url(${defaultImg});
   background-repeat: no-repeat;
   background-color: white;
@@ -75,6 +78,10 @@ const StyledAvatar = styled.a`
   border-radius: 50%;
   border: 4px solid ${({ theme }) => theme.twitters};
   box-shadow: 0 10px 20px -10px hsla(0, 0%, 0%, 0.2);
+  ${({ theme }) => theme.mq.smallTablet} {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const StyledLink = styled(Paragraph)`
