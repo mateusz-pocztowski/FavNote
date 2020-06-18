@@ -332,7 +332,7 @@ class AuthTemplate extends Component {
                 resetForm,
                 isSubmitting,
               }) => (
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} autoComplete="off">
                   {authType === 'register' && (
                     <InputItem>
                       <StyledInput

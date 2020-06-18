@@ -23,7 +23,10 @@ const Wrapper = styled(motion.div)`
 `;
 
 const PageHeader = styled.div`
-  margin: 70px 0 30px;
+  margin: 20px 0 30px;
+  ${({ theme }) => theme.mq.tablet} {
+    margin: 70px 0 30px;
+  }
   ${({ pageContext }) =>
     pageContext === 'twitters' &&
     css`

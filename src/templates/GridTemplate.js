@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const Wrapper = styled.div`
   position: relative;
-  padding: 15px 15px 80px;
+  padding: 0px 15px 80px;
 
   ${({ theme }) => theme.mq.smallTablet} {
     padding: 25px 110px 25px 40px;
@@ -63,7 +63,7 @@ const StyledAddButton = styled(ButtonIcon)`
   right: 10px;
   background-size: 35%;
   border-radius: 50%;
-  background-color: transparent;
+  background-color: ${({ theme, activecolor }) => theme[activecolor]};
   transform: ${({ isPanelVisible }) =>
     isPanelVisible ? 'rotate(45deg)' : 'rotate(0)'};
   &:hover {
@@ -75,7 +75,6 @@ const StyledAddButton = styled(ButtonIcon)`
     right: 20px;
     width: 62px;
     height: 62px;
-    background-color: ${({ theme, activecolor }) => theme[activecolor]};
   }
   ${({ theme }) => theme.mq.tablet} {
     width: 67px;
@@ -100,9 +99,12 @@ const EmptyState = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 400px;
-  height: 270px;
+  height: 200px;
   background: url(${emptyStateImg}) no-repeat center;
   background-size: 100%;
+  ${({ theme }) => theme.mq.smallTablet} {
+    height: 270px;
+  }
 `;
 
 const StyledEmptyHeading = styled(Heading)`

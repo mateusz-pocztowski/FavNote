@@ -19,16 +19,29 @@ const StyledWrapper = styled.aside`
   bottom: 0;
   width: 100%;
   max-width: 680px;
-  padding: 20px;
+  padding: 30px 20px 40px;
   background-color: #ffffff;
   border-left: 10px solid ${({ theme, activecolor }) => theme[activecolor]};
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
   transition: 0.35s;
+  overflow: auto;
   transform: ${({ isVisible }) =>
     isVisible ? 'translateX(0%)' : 'translateX(100%)'};
   ${({ theme }) => theme.mq.smallTablet} {
-    padding: 100px 90px;
+    padding: 80px 90px;
   }
+`;
+
+const StyledHeading = styled(Heading)`
+  font-size: ${({ theme }) => theme.fontSize.lm};
+  margin: 12px 0;
+  ${({ theme }) => theme.mq.smallTablet} {
+    font-size: ${({ theme }) => theme.fontSize.xl};
+  }
+`;
+
+const StyledForm = styled(Form)`
+  padding-bottom: 30px;
 `;
 
 const InputItem = styled.div`
@@ -36,6 +49,12 @@ const InputItem = styled.div`
   margin: 50px 0;
   position: relative;
   cursor: auto;
+  &:last-of-type {
+    margin-bottom: 25px;
+    ${({ theme }) => theme.mq.smallTablet} {
+      margin: 50px 0;
+    }
+  }
 `;
 
 const InputArea = styled(InputItem)`
@@ -86,7 +105,7 @@ const NewItemPanel = ({
   handleClosePanel,
 }) => (
   <StyledWrapper activecolor={pageContext} isVisible={isVisible}>
-    <Heading big>Add new {pageContext}</Heading>
+    <StyledHeading big>Add new {pageContext}</StyledHeading>
     <Formik
       initialValues={{
         title: '',
@@ -139,7 +158,7 @@ const NewItemPanel = ({
         handleSubmit,
         isSubmitting,
       }) => (
-        <Form onSubmit={handleSubmit}>
+        <StyledForm onSubmit={handleSubmit}>
           <InputItem>
             <StyledInput
               type="text"
@@ -218,7 +237,7 @@ const NewItemPanel = ({
           <SubmitButton disabled={isSubmitting} activecolor={pageContext}>
             Add Item
           </SubmitButton>
-        </Form>
+        </StyledForm>
       )}
     </Formik>
   </StyledWrapper>
