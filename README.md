@@ -6,10 +6,9 @@ FavNote is a react app, which allows you to save your favorite notes, twitter ac
 
 ## Demo
 
-To run the app, all you have to do is:
+**Note**: It may take some time till the server starts at the beginning. 
 
-1. Run the server by simply going to the page - https://favnotebackend.herokuapp.com/
-2. Go to the page to run FavNote https://fav-note-app.netlify.app/
+Demo - https://fav-note-app.netlify.app/
 
 That's all, enjoy and check the app out!
 
