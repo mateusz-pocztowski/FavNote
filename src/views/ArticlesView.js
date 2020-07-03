@@ -10,6 +10,7 @@ const ArticlesView = ({ articles }) => (
     {articles.map(({ id, title, content, created_at: created, articleUrl }) => (
       <motion.div
         key={id}
+        positionTransition
         keywords={title + content}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.7 } }}

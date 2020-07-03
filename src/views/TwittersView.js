@@ -11,6 +11,7 @@ const TwittersView = ({ twitters }) => (
       ({ id, title, content, created_at: created, twitterName }) => (
         <motion.div
           key={id}
+          positionTransition
           keywords={title + content}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 0.7 } }}

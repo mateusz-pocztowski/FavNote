@@ -10,6 +10,7 @@ const NotesView = ({ notes }) => (
     {notes.map(({ id, title, content, created_at: created }) => (
       <motion.div
         key={id}
+        positionTransition
         keywords={title + content}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.7 } }}
