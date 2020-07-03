@@ -8,6 +8,14 @@ FavNote is a react app, which allows you to save your favorite notes, twitter ac
 
 **Note**: It may take some time till the server starts at the beginning. 
 
+You can login with:
+<br/>
+login: **user123**
+<br/>
+password: **user123**
+
+or create your own account!
+
 Demo - https://fav-note-app.netlify.app/
 
 That's all, enjoy and check the app out!
