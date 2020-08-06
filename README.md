@@ -1,6 +1,6 @@
 # FavNote
 
-FavNote is a react app, which allows you to save your favorite notes, twitter accounts, or articles.
+The react app, which allows you to save notes, twitter accounts, or articles. It is based on "Adam Romański" course, extended with RWD, form validation - also server side, possibility to create own account, animations and more.
 
 ![rwd](https://user-images.githubusercontent.com/55945204/84949474-9adaf500-b0ed-11ea-892c-b28e4c834761.png)
 
